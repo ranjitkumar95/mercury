@@ -9,9 +9,9 @@
     <div class="alignright">
       <div>
         <ul class="menu">
-          <li><i class="fa fa-save"></i></li>
-          <li><i class="fa fa-print"></i></li>
-          <li><i class="fa fa-download"></i></li>
+          <li><i class="fa fa-save cursor"></i></li>
+          <li><i class="fa fa-print cursor"></i></li>
+          <li><i class="fa fa-download cursor"></i></li>
           <li>
             <div class="input-icons">
               <i class="fa fa-search icon"></i>
@@ -37,28 +37,28 @@
   <!-- Sidebar -->
   <div id="sidebar-wrapper">
     <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
-      <li class="text-center">
-        <a href="#">
+      <li class="text-center" [ngClass]="urlStringList[1]==='offer'? 'active':''">
+        <a [routerLink]="['/offer/customers']">
           <span class="center">
             <img src="../assets/images/megaphone.png">
           </span>
           New Offer</a>
       </li>
-      <li class="text-center">
-        <a href="#">
+      <li class="text-center" [ngClass]="urlStringList[1]==='existing-order'? 'active':''">
+        <a [routerLink]="['/existing-order']">
           <span class="center">
             <img src="../assets/images/clipboard.png">
           </span>
-          Shortcut
+          Existing Order
         </a>
 
       </li>
-      <li class="text-center">
-        <a href="#">
+      <li class="text-center" [ngClass]="urlStringList[1]==='existing-offer'? 'active':''">
+        <a [routerLink]="['/existing-offer']">
           <span class="center">
             <img src="../assets/images/clipboard.png">
           </span>
-          Shortcut
+          Existing Offer
         </a>
       </li>
     </ul>
@@ -66,7 +66,7 @@
   <!-- /#sidebar-wrapper -->
   <!-- Page Content -->
   <div id="page-content-wrapper" style="margin-top: 68px;">
-    <div class="xyz">
+    <div class="xyz" [ngClass]="urlStringList[1]==='offer'? '':'hide'">
       <ul>
         <li [ngClass]="urlStringList[2]==='customers'? 'curve-f bg-def':'curve-f'"><a
             [routerLink]="['/offer/customers']" [routerLinkActive]="['actives']">Customer</a></li>

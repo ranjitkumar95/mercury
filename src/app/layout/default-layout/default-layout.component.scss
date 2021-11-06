@@ -114,7 +114,7 @@
     margin: 0;
     padding: 0;
     list-style: none;
-    margin-top: 2px;
+    // margin-top: 2px;
 }
 
 .sidebar-nav li {
@@ -133,14 +133,19 @@
     text-decoration: none;
     color: black;
     // background: rgba(255, 255, 255, 0.2);
+    // border-right: red 4px solid;
+}
+
+.active,
+.focus {
+    text-decoration: none;
+    color: black;
+    // background: rgba(255, 255, 255, 0.2);
     border-right: red 4px solid;
 }
-
-.sidebar-nav li a:active,
-.sidebar-nav li a:focus {
-    text-decoration: none;
+.hide{
+    display: none;
 }
-
 .sidebar-nav > .sidebar-brand {
     height: 65px;
     font-size: 18px;
