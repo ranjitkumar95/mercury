@@ -1,0 +1,95 @@
+<nav class="navbar navbar-default no-margin">
+  <div id="main-header">
+    <div class="alignleft navbar-header fixed-brand">
+      <img src="../assets/images/Primary_logo_white.gif">
+    </div>
+    <div class="aligncenter">
+      <p>Welcome To Mercury</p>
+    </div>
+    <div class="alignright">
+      <div>
+        <ul class="menu">
+          <li><i class="fa fa-save"></i></li>
+          <li><i class="fa fa-print"></i></li>
+          <li><i class="fa fa-download"></i></li>
+          <li>
+            <div class="input-icons">
+              <i class="fa fa-search icon"></i>
+              <input placeholder="Search" class="input-field" type="text" />
+            </div>
+          </li>
+          <li>
+            <div class="avatar">
+              <p>DS</p>
+
+            </div>
+            <!-- <div class="avatar">
+                DS
+              </div> -->
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</nav>
+<div id="wrapper">
+  <!-- Sidebar -->
+  <div id="sidebar-wrapper">
+    <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+      <li class="text-center">
+        <a href="#">
+          <span class="center">
+            <img src="../assets/images/megaphone.png">
+          </span>
+          New Offer</a>
+      </li>
+      <li class="text-center">
+        <a href="#">
+          <span class="center">
+            <img src="../assets/images/clipboard.png">
+          </span>
+          Shortcut
+        </a>
+
+      </li>
+      <li class="text-center">
+        <a href="#">
+          <span class="center">
+            <img src="../assets/images/clipboard.png">
+          </span>
+          Shortcut
+        </a>
+      </li>
+    </ul>
+  </div>
+  <!-- /#sidebar-wrapper -->
+  <!-- Page Content -->
+  <div id="page-content-wrapper" style="margin-top: 68px;">
+    <div class="xyz">
+      <ul>
+        <li [ngClass]="urlStringList[2]==='customers'? 'curve-f bg-def':'curve-f'"><a
+            [routerLink]="['/offer/customers']" [routerLinkActive]="['actives']">Customer</a></li>
+        <li [ngClass]="urlStringList[2]==='offer-summery'? 'curve bg-def':'curve'"><a
+            [routerLink]="['/offer/offer-summery']" [routerLinkActive]="['actives']">Offer Summery</a>
+        </li>
+        <li [ngClass]="urlStringList[2]==='material-characteristics'? 'curve bg-def':'curve'"><a
+            [routerLink]="['/offer/material-characteristics']" [routerLinkActive]="['actives']">Material
+            Characteristics</a></li>
+        <li [ngClass]="urlStringList[2]==='Mill-extras'? 'curve bg-def':'curve'"><a
+            [routerLink]="['/offer/Mill-extras']" [routerLinkActive]="['actives']">Mill Extras</a></li>
+        <li [ngClass]="urlStringList[2]==='processing-extras'? 'curve bg-def':'curve'"><a
+            [routerLink]="['/offer/processing-extras']">Processing
+            Extras</a></li>
+        <li [ngClass]="urlStringList[2]==='transport-extras'? 'curve bg-def':'curve'"><a
+            [routerLink]="['/offer/transport-extras']" [routerLinkActive]="['actives']">Transport
+            Extras</a></li>
+      </ul>
+    </div>
+    <div class="xyz-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+  <!-- /#page-content-wrapper -->
+</div>
