@@ -7,6 +7,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialsModule } from './materials/materials.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { DefaultLayoutComponent } from './layout';
+import { CitGlobalConstantService } from './services/api-collection';
+import { ApiService } from './services/api.service';
+import { HttpClientModule } from '@angular/common/http';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent
@@ -22,9 +25,10 @@ const APP_CONTAINERS = [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     MaterialsModule
   ],
-  providers: [],
+  providers: [ApiService, CitGlobalConstantService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

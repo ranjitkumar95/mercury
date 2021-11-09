@@ -18,7 +18,7 @@ const routes: Routes = [
         component: CustomersComponent
       },
       {
-        path: 'offer-summery',
+        path: 'offer-summary',
         component: OfferSummeryComponent
       },
       {

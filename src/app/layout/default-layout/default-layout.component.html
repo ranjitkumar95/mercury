@@ -65,13 +65,13 @@
   </div>
   <!-- /#sidebar-wrapper -->
   <!-- Page Content -->
-  <div id="page-content-wrapper" style="margin-top: 68px;">
+  <div id="page-content-wrapper" style="margin-top: 55px;">
     <div class="xyz" [ngClass]="urlStringList[1]==='offer'? '':'hide'">
       <ul>
         <li [ngClass]="urlStringList[2]==='customers'? 'curve-f bg-def':'curve-f'"><a
             [routerLink]="['/offer/customers']" [routerLinkActive]="['actives']">Customer</a></li>
-        <li [ngClass]="urlStringList[2]==='offer-summery'? 'curve bg-def':'curve'"><a
-            [routerLink]="['/offer/offer-summery']" [routerLinkActive]="['actives']">Offer Summery</a>
+        <li [ngClass]="urlStringList[2]==='offer-summary'? 'curve bg-def':'curve'"><a
+            [routerLink]="['/offer/offer-summary']" [routerLinkActive]="['actives']">Offer Summary</a>
         </li>
         <li [ngClass]="urlStringList[2]==='material-characteristics'? 'curve bg-def':'curve'"><a
             [routerLink]="['/offer/material-characteristics']" [routerLinkActive]="['actives']">Material

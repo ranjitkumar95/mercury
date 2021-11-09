@@ -1,0 +1,21 @@
+export interface offerSummery {
+    'Item': any,
+    'Plant': any,
+    'Material_Number': any,
+    'BOM': any,
+    'BOM_Width': any,
+    'Material_Format': any,
+    'Thickness': any,
+    'Width': any,
+    'Length': any,
+    'Axis': any,
+    'Applicable_PGL_Base_Price': any,
+    'Total_mill_Extra': any,
+    'Total_Processing_Extra': any,
+    'Total_Transport_Extra': any,
+    'Total_Effective_Extra': any,
+    'Proposed_Price': any,
+    'Volume_Offered_In_Tonnes': any,
+    'PCR_Price': any,
+    'Gap_With_Applicable_PGL_Base_Price': any
+}

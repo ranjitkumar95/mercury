@@ -10,12 +10,14 @@ import { ProcessingExtraComponent } from './processing-extra/processing-extra.co
 import { TransportExtraComponent } from './transport-extra/transport-extra.component';
 import { CommonUseModule } from 'src/app/common-use/common-use.module';
 import { MaterialsModule } from 'src/app/materials/materials.module';
+import { CustomersComponent } from './customers/customers.component';
 
 
 @NgModule({
   declarations: [
     OfferComponent,
     OfferSummeryComponent,
+    CustomersComponent,
     MaterialCharacteristicsComponent,
     MillExtraComponent,
     ProcessingExtraComponent,

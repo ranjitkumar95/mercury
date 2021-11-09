@@ -1,11 +1,211 @@
 /* You can add global styles to this file, and also import other style files */
-@import './assets/color.scss';
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@import "./assets/color.scss";
+html,
+body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 //input outline color
-p,a {
+p,
+a {
     font-family: "regular";
 }
-.cursor{
+.cursor {
     cursor: pointer;
+}
+
+.mat-header-row {
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    min-width: 100%;
+    border-left: 1px solid;
+    border-top: 1px solid;
+    border-color: $tableBorder !important;
+    background-color: $tableHeadColor;
+    min-height: 35px;
+    .mat-header-cell {
+        padding: 0 10px;
+        border-right: 1px solid;
+        border-color: $tableBorder !important;
+        color: $white !important;
+        font-size: 0.875rem;
+    }
+}
+.mat-row {
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    min-width: 100%;
+    border-left: 1px solid;
+    border-color: $tableBorder !important;
+    align-items: inherit;
+    background-color: $primaryBg;
+    .mat-cell {
+        padding: 0 10px;
+        word-break: break-all;
+        word-break: break-word;
+        text-align: left;
+        border-right: 1px solid;
+        border-color: $tableBorder !important;
+        font-size: 0.875rem;
+    }
+    .mat-column-expandedDetail {
+        overflow: visible;
+    }
+}
+.mat-table {
+    background-color: $primaryBg;
+}
+.example-detail-row {
+    min-height: auto;
+    border-bottom: none;
+}
+.cdk-column-expandedDetail {
+    border-right: none !important;
+}
+.no_data {
+    .mat-cell {
+        border-right: none !important;
+    }
+}
+.mat-footer-cell {
+    font-size: 0.875rem;
+}
+.mat-form-field-prefix,
+.mat-form-field-suffix {
+    color: #918787;
+}
+.mat-flat-button.mat-primary,
+.mat-raised-button.mat-primary,
+.mat-fab.mat-primary,
+.mat-mini-fab.mat-primary {
+    background: $scrollOrange;
+    color: $white;
+    font-family: "regular";
+    border-radius: 0px;
+    min-width: 120px;
+}
+
+//input outline color
+.mat-form-field-appearance-standard .mat-form-field-underline {
+    color: #f05b31 !important;
+    background-color: #f05b31 !important;
+    // opacity: 1!important;
+}
+
+//mat-input focused color
+.mat-form-field-appearance-standard.mat-focused .mat-form-field-outline-thick {
+    color: #f05b31 !important;
+}
+.mat-form-field.mat-focused .mat-form-field-ripple,
+.mat-form-field-ripple {
+    background-color: #f05b31 !important;
+}
+// mat-input error outline color
+.mat-form-field-appearance-standard.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick {
+    color: #f05b31 !important;
+    opacity: 0.8 !important;
+}
+
+// mat-input carent color
+.mat-input-element {
+    caret-color: #f05b31 !important;
+}
+
+// mat-input error carent color
+.mat-form-field-invalid .mat-input-element,
+.mat-warn .mat-input-element {
+    caret-color: #b1320e !important;
+}
+
+// mat-label normal state style
+.mat-form-field-label {
+    color: rgba(0, 0, 0, 0.6) !important;
+    // color: $mainColor!important;
+}
+
+// mat-label focused style
+.mat-form-field.mat-focused .mat-form-field-label {
+    color: #f05b31 !important;
+}
+
+// mat-label error style
+.mat-form-field.mat-form-field-invalid .mat-form-field-label {
+    color: #f05b31 !important;
+}
+
+.mat-flat-button.mat-primary,
+.mat-raised-button.mat-primary,
+.mat-fab.mat-primary,
+.mat-mini-fab.mat-primary1 {
+    border-radius: 0px;
+    min-width: 100px;
+}
+.mat-stroked-button:not(.mat-button-disabled) {
+    border-radius: 0px;
+    min-width: 100px;
+}
+.example-full-width{
+    width: 100%;
+}
+
+// time picker
+.timepicker__header {
+    background: transparent linear-gradient(80deg, $primaryOrange 0%, $scrollOrange 100%) 0% 0% no-repeat padding-box !important;
+}
+.timepicker-button {
+    color: white !important;
+    background: transparent linear-gradient(80deg, $primaryOrange 0%, $scrollOrange 100%) 0% 0% no-repeat padding-box !important;
+    padding: 2%;
+    margin-right: 2px;
+}
+.clock-face__clock-hand {
+    background: transparent linear-gradient(80deg, $primaryOrange 0%, $scrollOrange 100%) 0% 0% no-repeat padding-box !important;
+}
+.clock-face__number > span.active {
+    background: transparent linear-gradient(80deg, $primaryOrange 0%, $scrollOrange 100%) 0% 0% no-repeat padding-box !important;
+    color: white;
+}
+.clock-face__clock-hand_minute:before {
+    border-color: $scrollOrange;
+}
+.mat-calendar-header {
+    padding: 8px 8px 0 8px;
+    color: white;
+    background: transparent linear-gradient(80deg, $primaryOrange 0%, $scrollOrange 100%) 0% 0% no-repeat padding-box !important;
+}
+.mat-calendar-arrow {
+    border-top-color: white;
+}
+.mat-calendar-body-selected {
+    background: transparent linear-gradient(80deg, $primaryOrange 0%, $scrollOrange 100%) 0% 0% no-repeat padding-box !important;
+}
+.mat-datepicker-toggle,
+.mat-datepicker-content .mat-calendar-next-button,
+.mat-datepicker-content .mat-calendar-previous-button {
+    color: white;
+}
+.mat-form-field:not(.mat-form-field-appearance-legacy)
+    .mat-form-field-prefix
+    .mat-icon-button
+    .mat-datepicker-toggle-default-icon,
+.mat-form-field:not(.mat-form-field-appearance-legacy)
+    .mat-form-field-suffix
+    .mat-icon-button
+    .mat-datepicker-toggle-default-icon {
+    color: white;
+    background: transparent linear-gradient(80deg, $primaryOrange 0%, $scrollOrange 100%) 0% 0% no-repeat padding-box !important;
+}
+.mat-datepicker-content .mat-calendar {
+    width: 230px !important;
+    height: 300px !important;
+    z-index: 2000;
+}
+
+.cdk-overlay-container{
+    z-index: 2000;
 }
