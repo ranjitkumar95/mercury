@@ -1,16 +1,35 @@
 <form [formGroup]="customerForm" autocomplete="off" class="pd-15">
     <div class="row">
-        <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
+        <div class="col-6">
+            <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Customer</mat-label>
-                <input matInput formControlName="Customer" required>
-                <mat-error *ngIf="customerForm.get('Customer').hasError('required')">
+                <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="CustomerControl"
+                    [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                        {{option}}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="CustomerControl.hasError('required')">
                     Customer is required
                 </mat-error>
             </mat-form-field>
+            <!-- <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Customer</mat-label>
+                <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="Customer"
+                    [matAutocomplete]="customerAutoSelection">
+                <mat-autocomplete autoActiveFirstOption #customerAutoSelection="matAutocomplete">
+                    <mat-option *ngFor="let option of CustomerList" [value]="option">
+                        {{option}}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="customerForm.get('Customer').hasError('required')">
+                    Customer is required
+                </mat-error>
+            </mat-form-field> -->
         </div>
-        <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
+        <div class="col-6">
+            <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Sales Organisation</mat-label>
                 <mat-select formControlName="Sales_Organisation" placeholder="Sales Organisation"
                     (openedChange)="myInput.focus()">
@@ -26,24 +45,22 @@
                 </mat-select>
             </mat-form-field>
         </div>
-        <div class="col-4">
-        </div>
-        <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
+        <div class="col-6">
+            <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Customer Periodicity</mat-label>
-                <input matInput formControlName="Customer_Periodicity">
+                <input matInput formControlName="Customer_Periodicity" readonly>
             </mat-form-field>
         </div>
-        <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
+        <div class="col-6">
+            <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Ship to Customer</mat-label>
                 <mat-select formControlName="Ship_to_Customer" placeholder="Ship to Customer"
                     (openedChange)="myInput2.focus()">
-                    <span>
+                    <div class="pd-15">
                         <input class="myInput" #myInput2 matInput focused="'true'" type="text"
                             (keyup)="search(myInput2.value,'shipToCustomer')" autocomplete="off"
                             placeholder="Ship to Customer">
-                    </span>
+                    </div>
                     <mat-divider></mat-divider>
                     <mat-option *ngFor="let a of selectedShipToCustomer" [value]="a">
                         {{a}}
@@ -52,175 +69,182 @@
             </mat-form-field>
 
         </div>
-        <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
+        <div class="col-6">
+            <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Customer Segment</mat-label>
-                <input matInput formControlName="Customer_Segment">
+                <input matInput formControlName="Customer_Segment" readonly>
             </mat-form-field>
         </div>
-        <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
+        <div class="col-6">
+            <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Ship to Post Code</mat-label>
-                <input matInput formControlName="Ship_to_Post_Code">
+                <input matInput formControlName="Ship_to_Post_Code" readonly>
             </mat-form-field>
         </div>
-        <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
+        <div class="col-6">
+            <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Credit Limit</mat-label>
-                <input matInput formControlName="Credit_Limit">
+                <input matInput formControlName="Credit_Limit" readonly>
             </mat-form-field>
         </div>
-        <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
+        <div class="col-6">
+            <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Ship to Country</mat-label>
-                <input matInput formControlName="Ship_to_Country">
+                <input matInput formControlName="Ship_to_Country" readonly>
             </mat-form-field>
         </div>
         <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
+            <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Offer valid From</mat-label>
                 <input matInput [matDatepicker]="picker" formControlName="Offer_valid_From"
                     (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)" autocomplete="off"
-                    required readonly [min]="minDate">
+                    required [min]="minDate">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
                 <mat-error *ngIf="customerForm.get('Offer_valid_From').hasError('required')">
                     Date is required
                 </mat-error>
             </mat-form-field>
-            <!-- <mat-form-field class="example-full-width" appearance="standard">
-                <mat-label>Offer valid From</mat-label>
-                <input matInput formControlName="Offer_valid_From">
-            </mat-form-field> -->
         </div>
         <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
-                <mat-label>Offer Valid To</mat-label>
-                <input matInput [matDatepicker]="picker2" formControlName="Offer_Valid_To"
-                    (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)" autocomplete="off"
-                    required readonly [min]="minDate">
-                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                <mat-datepicker #picker2></mat-datepicker>
-                <mat-error *ngIf="customerForm.get('Offer_Valid_To').hasError('required')">
-                    Date is required
-                </mat-error>
-            </mat-form-field>
-            <!-- <mat-form-field class="example-full-width" appearance="standard">
-                <mat-label>Offer Valid To</mat-label>
-                <input matInput formControlName="Offer_Valid_To">
-            </mat-form-field> -->
-        </div>
-        <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
+
+            <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Period</mat-label>
-                <input matInput formControlName="Period">
+                <mat-select formControlName="Period" placeholder="Period" (selectionChange)="periodChange($event.value)"
+                    required>
+                    <mat-option *ngFor="let period of PeriodList" [value]="period.value">
+                        {{period.name}}
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
         </div>
         <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
-                <mat-label>Total Orderbook(Tonnes)</mat-label>
-                <input matInput formControlName="Total_Orderbook">
-            </mat-form-field>
-        </div>
-        <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
-                <mat-label>Open Orderbook(Tonnes)</mat-label>
-                <input matInput formControlName="Open_Orderbook">
-            </mat-form-field>
-        </div>
-        <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
-                <mat-label>Invoice quantity(Tonnes)</mat-label>
-                <input matInput formControlName="Invoice_quantity">
-            </mat-form-field>
-        </div>
-        <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
-                <mat-label>Sales by Product(Tonnes)</mat-label>
-                <input matInput formControlName="Sales_by_Product_HR">
-                <span matPrefix>HR - &nbsp;</span>
-            </mat-form-field>
-        </div>
-        <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
-                <mat-label>Sales by Product(Tonnes)</mat-label>
-                <input matInput formControlName="Sales_by_Product_CR">
-                <span matPrefix>CR - &nbsp;</span>
-            </mat-form-field>
-        </div>
-        <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
-                <mat-label>Sales by Product(Tonnes)</mat-label>
-                <input matInput formControlName="Sales_by_Product_GALV">
-                <span matPrefix>GALV - &nbsp;</span>
-            </mat-form-field>
-        </div>
-        <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
-                <mat-label>Sales by Product(Tonnes)</mat-label>
-                <input matInput formControlName="Sales_by_Product_EZN">
-                <span matPrefix>EZN - &nbsp;</span>
-            </mat-form-field>
-        </div>
-        <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
-                <mat-label>Sales by Product(Tonnes)</mat-label>
-                <input matInput formControlName="Sales_by_Product_ZM">
-                <span matPrefix>ZM - &nbsp;</span>
-            </mat-form-field>
-        </div>
-        <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
-                <mat-label>Sales by Product(Tonnes)</mat-label>
-                <input matInput formControlName="Sales_by_Product_OTH">
-                <span matPrefix>OTH - &nbsp;</span>
-            </mat-form-field>
-        </div>
-        <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
-                <mat-label>Invoiced Quantity(Tonnes)</mat-label>
-                <input matInput formControlName="Invoiced_Quantity_1">
-                <span matPrefix>{{systemYear}} - &nbsp;</span>
-            </mat-form-field>
-        </div>
-        <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
-                <mat-label>Invoiced Quantity(Tonnes)</mat-label>
-                <input matInput formControlName="Invoiced_Quantity_2">
-                <span matPrefix>{{systemYear-1}} - &nbsp;</span>
-            </mat-form-field>
-        </div>
-        <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
-                <mat-label>Invoiced Quantity(Tonnes)</mat-label>
-                <input matInput formControlName="Invoiced_Quantity_3">
-                <span matPrefix>{{systemYear-2}} - &nbsp;</span>
+            <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Offer Valid To</mat-label>
+                <input matInput [matDatepicker]="picker3" formControlName="Offer_Valid_To" dateFormat='dd/mm/yyyy'
+                    required readonly>
+                <!-- <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle> -->
+                <mat-datepicker #picker3></mat-datepicker>
+                <!-- <mat-error *ngIf="customerForm.get('Offer_Valid_To').hasError('required')">
+                    Date is required
+                </mat-error> -->
             </mat-form-field>
         </div>
 
+    </div>
+    <div class="row pd-t-b bg">
         <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
-                <mat-label>Sales by Shape(Tonnes)</mat-label>
-                <input matInput formControlName="Sales_by_Shape_Slit">
-                <span matPrefix>Slit - &nbsp;</span>
+            <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Total Orderbook(Tonnes)</mat-label>
+                <input matInput formControlName="Total_Orderbook" readonly>
             </mat-form-field>
         </div>
         <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
-                <mat-label>Sales by Shape(Tonnes)</mat-label>
-                <input matInput formControlName="Sales_by_Shape_Sheets">
-                <span matPrefix>Sheets - &nbsp;</span>
+            <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Open Orderbook(Tonnes)</mat-label>
+                <input matInput formControlName="Open_Orderbook" readonly>
             </mat-form-field>
         </div>
         <div class="col-4">
-            <mat-form-field class="example-full-width" appearance="standard">
-                <mat-label>Sales by Shape(Tonnes)</mat-label>
-                <input matInput formControlName="Sales_by_Shape_blanks">
-                <span matPrefix>Blanks - &nbsp;</span>
+            <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Invoice quantity(Tonnes)</mat-label>
+                <input matInput formControlName="Invoice_quantity" readonly>
             </mat-form-field>
+        </div>
+
+        <div class="col-6">
+            <mat-label>Sales by Product(Tonnes)</mat-label>
+            <table mat-table [dataSource]="productDataSource">
+
+                <ng-container matColumnDef="HR">
+                    <th mat-header-cell *matHeaderCellDef> HR </th>
+                    <td mat-cell *matCellDef="let row"> {{row.HR}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="CR">
+                    <th mat-header-cell *matHeaderCellDef> CR </th>
+                    <td mat-cell *matCellDef="let row"> {{row.CR}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="GALV">
+                    <th mat-header-cell *matHeaderCellDef> GALV </th>
+                    <td mat-cell *matCellDef="let row"> {{row.GALV}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="EZN">
+                    <th mat-header-cell *matHeaderCellDef> EZN </th>
+                    <td mat-cell *matCellDef="let row"> {{row.EZN}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ZM">
+                    <th mat-header-cell *matHeaderCellDef> ZM </th>
+                    <td mat-cell *matCellDef="let row"> {{row.ZM}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="OTH">
+                    <th mat-header-cell *matHeaderCellDef> OTH </th>
+                    <td mat-cell *matCellDef="let row"> {{row.OTH}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="productDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: productDisplayedColumns;"></tr>
+
+            </table>
+        </div>
+
+        <div class="col-6">
+            <mat-label>Invoiced Quantity(Tonnes)</mat-label>
+            <table mat-table [dataSource]="invoiceQuantityDataSource">
+
+                <ng-container matColumnDef="Invoiced_Quantity_1">
+                    <th mat-header-cell *matHeaderCellDef> {{systemYear}} </th>
+                    <td mat-cell *matCellDef="let row"> {{row.Invoiced_Quantity_1}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Invoiced_Quantity_2">
+                    <th mat-header-cell *matHeaderCellDef> {{systemYear-1}} </th>
+                    <td mat-cell *matCellDef="let row"> {{row.Invoiced_Quantity_2}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Invoiced_Quantity_3">
+                    <th mat-header-cell *matHeaderCellDef> {{systemYear-2}} </th>
+                    <td mat-cell *matCellDef="let row"> {{row.Invoiced_Quantity_3}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="invoiceQuantityDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: invoiceQuantityDisplayedColumns;"></tr>
+
+            </table>
+        </div>
+
+        <div class="col-6">
+            <mat-label>Sales by Shape(Tonnes)</mat-label>
+            <table mat-table [dataSource]="shapeDataSource">
+
+                <ng-container matColumnDef="Slit">
+                    <th mat-header-cell *matHeaderCellDef> {{systemYear}} </th>
+                    <td mat-cell *matCellDef="let row"> {{row.Slit}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Sheets">
+                    <th mat-header-cell *matHeaderCellDef> {{systemYear-1}} </th>
+                    <td mat-cell *matCellDef="let row"> {{row.Sheets}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="blanks">
+                    <th mat-header-cell *matHeaderCellDef> {{systemYear-2}} </th>
+                    <td mat-cell *matCellDef="let row"> {{row.blanks}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="shapeDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: shapeDisplayedColumns;"></tr>
+
+            </table>
+        </div>
+
+        <div class="col-6">
+
         </div>
     </div>
-    <div class="row">
+    <div class="row pd-t">
         <div class="col-12 text-center">
             <button mat-flat-button color="primary" (click)="submit()">Add Customer</button>
         </div>

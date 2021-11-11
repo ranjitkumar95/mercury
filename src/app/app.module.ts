@@ -10,6 +10,7 @@ import { DefaultLayoutComponent } from './layout';
 import { CitGlobalConstantService } from './services/api-collection';
 import { ApiService } from './services/api.service';
 import { HttpClientModule } from '@angular/common/http';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent
@@ -28,7 +29,7 @@ const APP_CONTAINERS = [
     HttpClientModule,
     MaterialsModule
   ],
-  providers: [ApiService, CitGlobalConstantService],
+  providers: [ApiService, CitGlobalConstantService,{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

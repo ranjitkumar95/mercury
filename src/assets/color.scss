@@ -25,3 +25,67 @@ $tableShadow: #c0c0c0;
 $template_color:#797979;
 $delete:rgb(247, 110, 110);
 $copy:rgb(50, 166, 243);
+// $aTag:#007bff;
+// direct color 
+    .color_text {
+        color: #41464A !important;
+    }
+    .warning_bg {
+       background-color:#f4dca0;
+    }
+    .color_white {
+        color: #ffffff !important;
+    }
+    .delete {
+        color: $delete;
+    }
+    .copy {
+        color: $copy;
+    }
+    .primary_a {
+        color: $primary;
+    }
+// login
+    $loginInputBorder:#0360b8;
+    $loginInputPlaceholder:#045097;
+
+// sidebar
+    $sideBarInactive:#6e6f70;
+    $sidebarShadow:#023E6D29;
+
+// header
+    $headerShadow:#00000029;
+
+// dashboard
+    $cardCount:#575353;
+    $cardName:#888F94;
+    // cards
+        $copy_cards: #e8bfbb;
+        $warning_cards:#f4dca0;
+        $confirmed_cards:#d4e3bb;
+        $blue_cards:#bbd9eb;
+        $violet_cards:#dac5d5;
+
+// dummy input border
+    $dummyInput_border:#989898;
+
+// order_table
+    $edit:#083596;
+    $approve:rgb(9, 146, 61);
+    $order_close:rgb(240, 82, 82);
+
+//my task
+    $myTask1: #e8bfbb;
+    $myTask2:#f4dca0;
+    $myTask3:#d4e3bb;
+    $myTask4:#bbd9eb;
+
+// my offers
+    $offerCount:#5d5d5d;
+
+// table details 
+    $f5f5f5:#f5f5f5;
+    $inputOne:#f6c3c4;
+    $inputTwo:#f6eeaa;
+    $inputThree:#c6f4bc;
+    $yellowInput:#fcfbf0;

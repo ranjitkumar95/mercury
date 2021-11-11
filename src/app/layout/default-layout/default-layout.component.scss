@@ -216,14 +216,14 @@
 }
 .fixed-brand {
     img {
-        background: #f05b31;
+        background: $primaryOrange;
         width: 100%;
         padding: 10px;
     }
 }
 .navbar {
     padding: 0px !important;
-    background: #f05b31;
+    background: $primaryOrange;
     height: 55px !important;
     position: fixed;
     width: 100%;
@@ -342,7 +342,7 @@
     }
 }
 .bg-def {
-    background: #f05b31 !important;
+    background: $primaryOrange !important;
     a {
         color: #fff !important;
     }
