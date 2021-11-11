@@ -6,6 +6,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { customerProduct, customerInvoiceQuantity, customerShape } from '../offer-interface';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { CitGlobalConstantService } from 'src/app/services/api-collection';
+import { ApiService } from 'src/app/services/api.service';
 @Component({
   selector: 'app-customers',
   templateUrl: './customers.component.html',
@@ -36,8 +39,12 @@ export class CustomersComponent implements OnInit {
   productDataSource: any
   invoiceQuantityDataSource: any
   shapeDataSource: any
+  timeoutId: any = 0;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+    private apiString: CitGlobalConstantService,
+    private apiMethod: ApiService,
+    private router: Router) {
     this.systemYear = new Date().getFullYear()
     this.filteredOptions = this.CustomerControl.valueChanges.pipe(
       startWith(''),
@@ -50,31 +57,31 @@ export class CustomersComponent implements OnInit {
     console.log("Customer module working")
     this.customerForm = this.fb.group({
       Customer: ['', Validators.required],
-      Sales_Organisation: [''],
-      Customer_Periodicity: [''],
-      Ship_to_Customer: [''],
-      Customer_Segment: [''],
-      Ship_to_Post_Code: [''],
-      Credit_Limit: [''],
-      Ship_to_Country: [''],
-      Offer_valid_From: [''],
-      Period: [''],
-      Offer_Valid_To: [''],
-      Total_Orderbook: [''],
-      Open_Orderbook: [''],
-      Invoice_quantity: [''],
-      Sales_by_Product_HR: [''],
-      Sales_by_Product_CR: [''],
-      Sales_by_Product_GALV: [''],
-      Sales_by_Product_EZN: [''],
-      Sales_by_Product_ZM: [''],
-      Sales_by_Product_OTH: [''],
-      Invoiced_Quantity_1: [''],
-      Invoiced_Quantity_2: [''],
-      Invoiced_Quantity_3: [''],
-      Sales_by_Shape_Slit: [''],
-      Sales_by_Shape_Sheets: [''],
-      Sales_by_Shape_blanks: ['']
+      Sales_Organisation: ['', Validators.required],
+      Customer_Periodicity: ['', Validators.required],
+      Ship_to_Customer: ['', Validators.required],
+      Customer_Segment: ['', Validators.required],
+      Ship_to_Post_Code: ['', Validators.required],
+      Credit_Limit: ['', Validators.required],
+      Ship_to_Country: ['', Validators.required],
+      Offer_valid_From: ['', Validators.required],
+      Period: ['', Validators.required],
+      Offer_Valid_To: ['', Validators.required],
+      Total_Orderbook: ['', Validators.required],
+      Open_Orderbook: ['', Validators.required],
+      Invoice_quantity: ['', Validators.required],
+      Sales_by_Product_HR: ['', Validators.required],
+      Sales_by_Product_CR: ['', Validators.required],
+      Sales_by_Product_GALV: ['', Validators.required],
+      Sales_by_Product_EZN: ['', Validators.required],
+      Sales_by_Product_ZM: ['', Validators.required],
+      Sales_by_Product_OTH: ['', Validators.required],
+      Invoiced_Quantity_1: ['', Validators.required],
+      Invoiced_Quantity_2: ['', Validators.required],
+      Invoiced_Quantity_3: ['', Validators.required],
+      Sales_by_Shape_Slit: ['', Validators.required],
+      Sales_by_Shape_Sheets: ['', Validators.required],
+      Sales_by_Shape_blanks: ['', Validators.required]
     })
 
     this.productDataSource = new MatTableDataSource<customerProduct>([
@@ -160,6 +167,17 @@ export class CustomersComponent implements OnInit {
       }
     }
     return result
+  }
+  getCustomerList() {
+    clearTimeout(this.timeoutId);
+    let that = this
+    this.timeoutId = setTimeout(function () {
+      that.apiMethod.get_request_Param(that.apiString.CustomerList, { "searchtext": "" }).subscribe(result => {
+
+      })
+    }, 3000 || 0);
+    console.log(this.timeoutId)
+
   }
   submit() {
     console.log(this.customerForm.value)

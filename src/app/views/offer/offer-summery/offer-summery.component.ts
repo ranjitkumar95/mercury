@@ -55,19 +55,24 @@ export class OfferSummeryComponent implements OnInit {
   ngOnInit() {
     this.getOfferSummery()
   }
+  getCustomerList(){
+    this.apiMethod.get_request_Param(this.apiString.CustomerList,{"searchtext":""}).subscribe(result=>{
+
+    })
+  }
   getOfferSummery() {
     console.log(this.offerSummery)
     this.dataSource = new MatTableDataSource<offerSummery>(this.offerSummery)
-    this.apiMethod.get_request(this.apiString.OfferSummeryList).subscribe((result: any) => {
-      console.log(result)
-      this.dataSource = new MatTableDataSource<offerSummery>(result.data)
-      setTimeout(() => {
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      })
-    }, error => {
-      console.log(error)
-    })
+    // this.apiMethod.get_request(this.apiString.OfferSummeryList).subscribe((result: any) => {
+    //   console.log(result)
+    //   this.dataSource = new MatTableDataSource<offerSummery>(result.data)
+    //   setTimeout(() => {
+    //     this.dataSource.paginator = this.paginator;
+    //     this.dataSource.sort = this.sort;
+    //   })
+    // }, error => {
+    //   console.log(error)
+    // })
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

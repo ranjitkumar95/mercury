@@ -6,5 +6,7 @@ import { environment } from "../../environments/environment";
 export class CitGlobalConstantService {
 
     baseUrl: string = environment.domain;
-    OfferSummeryList:string=this.baseUrl+"";
+    CustomerList: string = this.baseUrl + "OfferToolApi/Customer/list";
+    customerDetails: String = this.baseUrl + "OfferToolApi/Customer/details";
+    shipTo: String = this.baseUrl + "OfferToolApi/Customer/shipto";
 }

@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  domain: 'https://localhost:3000'
+  domain: 'http://amds.mercury.dcc-am.com/'
 
 };

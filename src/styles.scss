@@ -34,14 +34,14 @@ a {
     border-left: 1px solid;
     border-top: 1px solid;
     border-color: $tableBorder !important;
-    background-color: $tableHeadColor;
+    background-color: lightblue;
     min-height: 35px;
     max-height: 35px;
     .mat-header-cell {
         padding: 0 10px;
         border-right: 1px solid;
         border-color: $tableBorder !important;
-        color: $white !important;
+        color: $black !important;
         font-size: 0.875rem;
     }
 }
@@ -216,4 +216,7 @@ tr.mat-header-row {
 // mat-label error style
 .mat-form-field.mat-form-field-invalid .mat-form-field-label {
     color: $primaryOrange !important;
+}
+.mat-form-field-appearance-outline .mat-form-field-infix{
+    padding:0.5em 0.5em 1em 0.5em !important
 }
