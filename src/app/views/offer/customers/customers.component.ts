@@ -15,11 +15,12 @@ import { ApiService } from 'src/app/services/api.service';
   styleUrls: ['./customers.component.scss']
 })
 export class CustomersComponent implements OnInit {
+  loadingRouteConfig: boolean = false
   systemYear: any;
-  salesOrganisation: string[] = ['Tokyo', 'NewYork', 'Portland'];
-  shipToCustomer: string[] = ['1', '2', '3'];
-  selectedSalesOrganisation: string[] = this.salesOrganisation;
-  selectedShipToCustomer: string[] = this.shipToCustomer;
+  salesOrganisationList: any = [];
+  shipToCustomer: any = [];
+  selectedSalesOrganisation: any = [];
+  selectedShipToCustomer: any = [];
   customerForm: any = FormGroup;
   minDate = new Date()
   PeriodList = [
@@ -40,6 +41,8 @@ export class CustomersComponent implements OnInit {
   invoiceQuantityDataSource: any
   shapeDataSource: any
   timeoutId: any = 0;
+  customerList: any = [];
+  loadingAutoSuggestion: boolean = false;
 
   constructor(private fb: FormBuilder,
     private apiString: CitGlobalConstantService,
@@ -57,6 +60,7 @@ export class CustomersComponent implements OnInit {
     console.log("Customer module working")
     this.customerForm = this.fb.group({
       Customer: ['', Validators.required],
+      soldto: [''],
       Sales_Organisation: ['', Validators.required],
       Customer_Periodicity: ['', Validators.required],
       Ship_to_Customer: ['', Validators.required],
@@ -83,32 +87,6 @@ export class CustomersComponent implements OnInit {
       Sales_by_Shape_Sheets: ['', Validators.required],
       Sales_by_Shape_blanks: ['', Validators.required]
     })
-
-    this.productDataSource = new MatTableDataSource<customerProduct>([
-      {
-        'HR': 122,
-        'CR': 12,
-        'GALV': 22,
-        'EZN': 62,
-        'ZM': 154,
-        'OTH': 10
-      }
-    ])
-    this.invoiceQuantityDataSource = new MatTableDataSource<customerInvoiceQuantity>([
-      {
-        'Invoiced_Quantity_1': "580",
-        'Invoiced_Quantity_2': "540",
-        'Invoiced_Quantity_3': "410"
-      }
-    ])
-    this.shapeDataSource = new MatTableDataSource<customerShape>([
-      {
-        'Slit': 439,
-        'Sheets': 539,
-        'blanks': -939
-      }
-    ])
-
   }
   private _filterCustomer(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -152,16 +130,19 @@ export class CustomersComponent implements OnInit {
   }
   select(query: string, searchTo: any): any {
     let result: string[] = [];
+    query = query.toLowerCase()
     if (searchTo === 'SalesOrganisation') {
 
-      for (let a of this.salesOrganisation) {
-        if (a.toLowerCase().indexOf(query) > -1) {
+      for (let a of this.salesOrganisationList) {
+        console.log(a.salesOrganization.toLowerCase().indexOf(query))
+        if (a.salesOrganization.toLowerCase().indexOf(query) > -1) {
           result.push(a)
         }
       }
     } else {
+      console.log(this.shipToCustomer)
       for (let a of this.shipToCustomer) {
-        if (a.toLowerCase().indexOf(query) > -1) {
+        if (a.shipTo.toLowerCase().indexOf(query) > -1) {
           result.push(a)
         }
       }
@@ -171,16 +152,97 @@ export class CustomersComponent implements OnInit {
   getCustomerList() {
     clearTimeout(this.timeoutId);
     let that = this
+    this.loadingAutoSuggestion = true
     this.timeoutId = setTimeout(function () {
-      that.apiMethod.get_request_Param(that.apiString.CustomerList, { "searchtext": "" }).subscribe(result => {
-
+      that.apiMethod.get_request_Param(that.apiString.CustomerList, { "searchtext": that.CustomerControl.value }).subscribe(result => {
+        that.customerList = result
+        that.loadingAutoSuggestion = false
       })
-    }, 3000 || 0);
+    }, 2000 || 0);
     console.log(this.timeoutId)
 
   }
+  customerSelected(changeValue: any) {
+    console.log(changeValue)
+    this.customerForm.patchValue({
+      soldto: changeValue.soldto,
+      Customer: changeValue.soldtoname
+    })
+    console.log(this.customerForm.value)
+    this.loadingRouteConfig = true
+    this.apiMethod.get_request_Param(this.apiString.shipTo, { soldto: changeValue.soldto }).subscribe(result => {
+      console.log(result)
+      this.salesOrganisationList = result
+      this.selectedSalesOrganisation = Array.from(this.salesOrganisationList.reduce((m: any, t: any) => m.set(t.salesOrganization, t), new Map()).values());
+      this.loadingRouteConfig = false
+    }, error => {
+      this.loadingRouteConfig = false
+    })
+  }
+  orgChange(changeValue: any) {
+    this.shipToCustomer = []
+    this.salesOrganisationList.forEach((element: any) => {
+      if (element.salesOrganization === changeValue.salesOrganization) {
+        this.shipToCustomer.push(element)
+      }
+    });
+    this.selectedShipToCustomer = this.shipToCustomer
+
+  }
+  shipToCustomerChange(changeValue: any) {
+    let body = {
+      "organization": changeValue.salesOrganization,
+      "soldTo": this.customerForm.value.soldto,
+      "shipTo": changeValue.shipTo
+    }
+    console.log(body)
+    console.log(changeValue)
+    this.loadingRouteConfig = true
+    this.apiMethod.post_request(this.apiString.customerDetails, body).subscribe((result: any) => {
+      console.log(result)
+      this.loadingRouteConfig = false
+      this.customerForm.patchValue({
+        Customer_Periodicity: result[0]?.periodicity,
+        Customer_Segment: result[0]?.priceSegment,
+        Ship_to_Post_Code: result[0]?.shiptoPostCode,
+        Credit_Limit: result[0]?.creditLimit,
+        Ship_to_Country: result[0]?.shiptoCountry,
+        Total_Orderbook: result[0]?.totalOrderbook,
+        Open_Orderbook: result[0]?.openOrderbook,
+        Invoice_quantity: result[0]?.invoicedQuantity,
+      })
+
+      this.productDataSource = new MatTableDataSource<customerProduct>([
+        {
+          'HR': result[0]?.productHR ? result[0]?.productHR : '--',
+          'CR': result[0]?.productCR ? result[0]?.productCR : '--',
+          'GALV': result[0]?.productGALV ? result[0]?.productGALV : '--',
+          'EZN': result[0]?.productEZN ? result[0]?.productEZN : '--',
+          'ZM': result[0]?.productZM ? result[0]?.productZM : '--',
+          'OTH': result[0]?.productOTH ? result[0]?.productOTH : "--"
+        }
+      ])
+      this.invoiceQuantityDataSource = new MatTableDataSource<customerInvoiceQuantity>([
+        {
+          'Invoiced_Quantity_1': result[0]?.invoicedQtyinCY1 ? result[0]?.invoicedQtyinCY1 : "--",
+          'Invoiced_Quantity_2': result[0]?.invoicedQtyinCY2 ? result[0]?.invoicedQtyinCY2 : '--',
+          'Invoiced_Quantity_3': result[0]?.invoicedQtyinCY3 ? result[0]?.invoicedQtyinCY3 : '--'
+        }
+      ])
+      this.shapeDataSource = new MatTableDataSource<customerShape>([
+        {
+          'Slit': result[0]?.shapecoil ? result[0]?.shapecoil : '--',
+          'Sheets': result[0]?.shapeSheet ? result[0]?.shapeSheet : "--",
+          'blanks': result[0]?.shapeblank ? result[0]?.shapeblank : "--"
+        }
+      ])
+    }, error => {
+      this.loadingRouteConfig = false
+    })
+  }
   submit() {
     console.log(this.customerForm.value)
+
   }
 }
 

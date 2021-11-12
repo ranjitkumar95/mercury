@@ -20,11 +20,11 @@ a {
     padding-top: 10px;
     padding-bottom: 10px;
 }
-.pd-t{
+.pd-t {
     padding-top: 10px;
 }
-.bg{
-   background: $tableBodyBorder;
+.bg {
+    background: $tableBodyBorder;
 }
 .mat-header-row {
     width: -webkit-fit-content;
@@ -217,6 +217,55 @@ tr.mat-header-row {
 .mat-form-field.mat-form-field-invalid .mat-form-field-label {
     color: $primaryOrange !important;
 }
-.mat-form-field-appearance-outline .mat-form-field-infix{
-    padding:0.5em 0.5em 1em 0.5em !important
+.mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0.5em 0.5em 1em 0.5em !important;
 }
+
+.loading-overlay {
+    display: none;
+    background: rgba(255, 255, 255, 0.7);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 9998;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-overlay.is-active {
+    display: flex;
+}
+
+/*loader*/
+
+.signal {
+    border: 5px solid $primaryOrange;
+    border-radius: 30px;
+    height: 30px;
+    left: 50%;
+    margin: -15px 0 0 -15px;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    width: 30px;
+    animation: pulsate 1s ease-out;
+    animation-iteration-count: infinite;
+}
+
+@keyframes pulsate {
+    0% {
+        transform: scale(0.1);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+}
+
+/*loader*/

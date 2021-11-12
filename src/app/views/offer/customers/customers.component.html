@@ -1,3 +1,8 @@
+<ng-container *ngIf="loadingRouteConfig">
+    <div class="loading-overlay is-active">
+        <span class="signal"></span>
+    </div>
+</ng-container>
 <form [formGroup]="customerForm" autocomplete="off" class="pd-15">
     <div class="row">
         <div class="col-6">
@@ -6,12 +11,18 @@
                     <mat-label>Customer</mat-label>
                 </div>
                 <div class="col-8">
+
                     <mat-form-field class="example-full-width" appearance="outline">
                         <input type="text" placeholder="Pick one" aria-label="Number" matInput
                             [formControl]="CustomerControl" [matAutocomplete]="auto" (keyup)="getCustomerList()">
                         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                                {{option}}
+                            <mat-option *ngIf="loadingAutoSuggestion">
+                                <div class=" is-active">
+                                    <span class="signal"></span>
+                                </div>                            </mat-option>
+                            <mat-option *ngFor="let customer of customerList "
+                                (onSelectionChange)="customerSelected(customer)" [value]="customer.soldtoname">
+                                {{customer.soldtoname}}
                             </mat-option>
                         </mat-autocomplete>
                         <mat-error *ngIf="CustomerControl.hasError('required')">
@@ -29,7 +40,7 @@
                 <div class="col-8">
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-select formControlName="Sales_Organisation" placeholder="Sales Organisation"
-                            (openedChange)="myInput.focus()">
+                            (openedChange)="myInput.focus()" (selectionChange)="orgChange($event.value)">
                             <div class="pd-15">
                                 <input class="myInput" #myInput matInput focused="'true'" type="text"
                                     (keyup)="search(myInput.value,'SalesOrganisation')" autocomplete="off"
@@ -37,7 +48,30 @@
                             </div>
                             <mat-divider></mat-divider>
                             <mat-option *ngFor="let a of selectedSalesOrganisation" [value]="a">
-                                {{a}}
+                                {{a.salesOrganization}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <div class="col-4 label-position">
+                    <mat-label>Ship to Customer</mat-label>
+                </div>
+                <div class="col-8">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-select formControlName="Ship_to_Customer" placeholder="Ship to Customer"
+                            (openedChange)="myInput2.focus()" (selectionChange)="shipToCustomerChange($event.value)">
+                            <div class="pd-15">
+                                <input class="myInput" #myInput2 matInput focused="'true'" type="text"
+                                    (keyup)="search(myInput2.value,'shipToCustomer')" autocomplete="off"
+                                    placeholder="Ship to Customer">
+                            </div>
+                            <mat-divider></mat-divider>
+                            <mat-option *ngFor="let a of selectedShipToCustomer" [value]="a">
+                                {{a?.shipTo}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -56,29 +90,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-6">
-            <div class="row">
-                <div class="col-4 label-position">
-                    <mat-label>Ship to Customer</mat-label>
-                </div>
-                <div class="col-8">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-select formControlName="Ship_to_Customer" placeholder="Ship to Customer"
-                            (openedChange)="myInput2.focus()">
-                            <div class="pd-15">
-                                <input class="myInput" #myInput2 matInput focused="'true'" type="text"
-                                    (keyup)="search(myInput2.value,'shipToCustomer')" autocomplete="off"
-                                    placeholder="Ship to Customer">
-                            </div>
-                            <mat-divider></mat-divider>
-                            <mat-option *ngFor="let a of selectedShipToCustomer" [value]="a">
-                                {{a}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            </div>
-        </div>
+
         <div class="col-6">
             <div class="row">
                 <div class="col-4 label-position">

@@ -13,7 +13,12 @@ export class ApiService {
 
     ) { }
     get_request(url: any) {
-        return this.https.get(url);
+        let headers: any = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+        headers = headers.append('Access-Control-Allow-Origin', '*');
+        headers = headers.append('Access-Control-Allow-Methods', 'GET,POST,OPTIONS,DELETE,PUT');
+        return this.https.get(url, {
+            headers: headers
+        })
     }
     post_request(url: any, param: any) {
         return this.https.post(url, param)
