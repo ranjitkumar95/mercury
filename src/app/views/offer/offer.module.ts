@@ -12,7 +12,6 @@ import { CommonUseModule } from 'src/app/common-use/common-use.module';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { CustomersComponent } from './customers/customers.component';
 
-
 @NgModule({
   declarations: [
     OfferComponent,

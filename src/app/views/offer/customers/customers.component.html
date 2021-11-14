@@ -19,7 +19,8 @@
                             <mat-option *ngIf="loadingAutoSuggestion">
                                 <div class=" is-active">
                                     <span class="signal"></span>
-                                </div>                            </mat-option>
+                                </div>
+                            </mat-option>
                             <mat-option *ngFor="let customer of customerList "
                                 (onSelectionChange)="customerSelected(customer)" [value]="customer.soldtoname">
                                 {{customer.soldtoname}}

@@ -68,8 +68,8 @@
   <div id="page-content-wrapper" style="margin-top: 55px;">
     <div class="xyz" [ngClass]="urlStringList[1]!='offer'? 'hide':''">
       <ul>
-        <li [ngClass]="urlStringList[2]==='customers'? 'curve-f bg-def':'curve-f'"><a
-            [routerLink]="['/offer/customers']" [routerLinkActive]="['actives']">Customer</a></li>
+        <li [ngClass]="urlStringList[2]!='customers'? 'curve-f':'curve-f bg-def'"><a [routerLink]="['/offer/customers']"
+            [routerLinkActive]="['actives']">Customer</a></li>
         <li [ngClass]="urlStringList[2]==='offer-summary'? 'curve bg-def':'curve'"><a
             [routerLink]="['/offer/offer-summary']" [routerLinkActive]="['actives']">Offer Summary</a>
         </li>

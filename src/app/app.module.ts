@@ -29,7 +29,7 @@ const APP_CONTAINERS = [
     HttpClientModule,
     MaterialsModule
   ],
-  providers: [ApiService, CitGlobalConstantService,{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
+  providers: [ApiService, CitGlobalConstantService, { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -4,8 +4,6 @@ import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms'
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatTableDataSource } from '@angular/material/table';
 import { customerProduct, customerInvoiceQuantity, customerShape } from '../offer-interface';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { CitGlobalConstantService } from 'src/app/services/api-collection';
 import { ApiService } from 'src/app/services/api.service';
@@ -33,10 +31,8 @@ export class CustomersComponent implements OnInit {
   productDisplayedColumns: any = ['HR', 'CR', 'GALV', 'EZN', 'ZM', 'OTH']
   invoiceQuantityDisplayedColumns: any = ['Invoiced_Quantity_1', 'Invoiced_Quantity_2', 'Invoiced_Quantity_3']
   shapeDisplayedColumns: any = ['Slit', 'Sheets', 'blanks']
-  CustomerList: string[] = ['One', 'Two', 'Three'];
-  options: string[] = ['One', 'Two', 'Three'];
+
   CustomerControl = new FormControl('', Validators.required);
-  filteredOptions: Observable<string[]>;
   productDataSource: any
   invoiceQuantityDataSource: any
   shapeDataSource: any
@@ -49,10 +45,7 @@ export class CustomersComponent implements OnInit {
     private apiMethod: ApiService,
     private router: Router) {
     this.systemYear = new Date().getFullYear()
-    this.filteredOptions = this.CustomerControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterCustomer(value)),
-    );
+
   }
 
   ngOnInit(): void {
@@ -87,11 +80,6 @@ export class CustomersComponent implements OnInit {
       Sales_by_Shape_Sheets: ['', Validators.required],
       Sales_by_Shape_blanks: ['', Validators.required]
     })
-  }
-  private _filterCustomer(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
 
@@ -208,32 +196,32 @@ export class CustomersComponent implements OnInit {
         Credit_Limit: result[0]?.creditLimit,
         Ship_to_Country: result[0]?.shiptoCountry,
         Total_Orderbook: result[0]?.totalOrderbook,
-        Open_Orderbook: result[0]?.openOrderbook,
+        Open_Orderbook: result[0]?.openorderbook,
         Invoice_quantity: result[0]?.invoicedQuantity,
       })
 
       this.productDataSource = new MatTableDataSource<customerProduct>([
         {
-          'HR': result[0]?.productHR ? result[0]?.productHR : '--',
-          'CR': result[0]?.productCR ? result[0]?.productCR : '--',
-          'GALV': result[0]?.productGALV ? result[0]?.productGALV : '--',
-          'EZN': result[0]?.productEZN ? result[0]?.productEZN : '--',
-          'ZM': result[0]?.productZM ? result[0]?.productZM : '--',
-          'OTH': result[0]?.productOTH ? result[0]?.productOTH : "--"
+          'HR': result[0]?.productHR,
+          'CR': result[0]?.productCR,
+          'GALV': result[0]?.productGALV,
+          'EZN': result[0]?.productEZN,
+          'ZM': result[0]?.productZM,
+          'OTH': result[0]?.productOTH
         }
       ])
       this.invoiceQuantityDataSource = new MatTableDataSource<customerInvoiceQuantity>([
         {
-          'Invoiced_Quantity_1': result[0]?.invoicedQtyinCY1 ? result[0]?.invoicedQtyinCY1 : "--",
-          'Invoiced_Quantity_2': result[0]?.invoicedQtyinCY2 ? result[0]?.invoicedQtyinCY2 : '--',
-          'Invoiced_Quantity_3': result[0]?.invoicedQtyinCY3 ? result[0]?.invoicedQtyinCY3 : '--'
+          'Invoiced_Quantity_1': result[0]?.invoicedQtyinCY,
+          'Invoiced_Quantity_2': result[0].invoicedQtyinCY1,
+          'Invoiced_Quantity_3': result[0]?.invoicedQtyinCY2
         }
       ])
       this.shapeDataSource = new MatTableDataSource<customerShape>([
         {
-          'Slit': result[0]?.shapecoil ? result[0]?.shapecoil : '--',
-          'Sheets': result[0]?.shapeSheet ? result[0]?.shapeSheet : "--",
-          'blanks': result[0]?.shapeblank ? result[0]?.shapeblank : "--"
+          'Slit': result[0]?.shapecoil,
+          'Sheets': result[0]?.shapeSheet,
+          'blanks': result[0]?.shapeblank
         }
       ])
     }, error => {

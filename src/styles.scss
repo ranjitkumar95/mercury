@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "./assets/color.scss";
+@import "./assets/custom.scss";
 html,
 body {
     height: 100%;
@@ -269,3 +270,31 @@ tr.mat-header-row {
 }
 
 /*loader*/
+.mat-checkbox.mat-accent {
+    .mat-checkbox-frame {
+        border: 1px solid $primaryOrange;
+    }
+
+    &.mat-checkbox-checked .mat-checkbox-background {
+        background-color: $white;
+        border: 1px solid $primaryOrange;
+    }
+
+    .mat-checkbox-checkmark-path {
+        stroke: $primaryOrange !important;
+    }
+}
+.mat-checkbox.mat-checkbox-indeterminate {
+    .mat-checkbox-frame {
+        border: 1px solid $primaryOrange;
+    }
+
+    &.mat-checkbox-checked .mat-checkbox-background {
+        background-color: $white;
+        border: 1px solid $primaryOrange;
+    }
+
+    .mat-checkbox-checkmark-path {
+        stroke: $primaryOrange !important;
+    }
+}

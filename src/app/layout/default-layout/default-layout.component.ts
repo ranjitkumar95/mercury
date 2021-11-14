@@ -7,22 +7,26 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./default-layout.component.scss']
 })
 export class DefaultLayoutComponent implements OnInit {
-  urlStringList: any;
+  urlStringList: any = [];
   constructor(
-    public router:Router
+    public router: Router
   ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
-    ).subscribe((event:any) => {
-      console.log("++++++++++++===========++++++++++++")
-      console.log(event.url.split('/'))
-      this.urlStringList=event.url.split('/')
-      
+    ).subscribe((event: any) => {
+      console.log(event)
+
+      console.log(event.urlAfterRedirects.split('/'))
+      this.urlStringList = event.urlAfterRedirects.split('/')
+
     });
-   }
+  }
 
   ngOnInit(): void {
-    
+
   }
 
 }
