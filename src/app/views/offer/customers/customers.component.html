@@ -21,10 +21,13 @@
                                     <span class="signal"></span>
                                 </div>
                             </mat-option>
+                            <!-- <ng-template *ngIf="!loadingAutoSuggestion"> -->
                             <mat-option *ngFor="let customer of customerList "
-                                (onSelectionChange)="customerSelected(customer)" [value]="customer.soldtoname">
-                                {{customer.soldtoname}}
+                                (onSelectionChange)="customerSelected(customer)"
+                                value="{{customer?.soldto}} - {{customer.soldtoname}}">
+                                {{customer?.soldto}} - {{customer.soldtoname}}
                             </mat-option>
+                            <!-- </ng-template> -->
                         </mat-autocomplete>
                         <mat-error *ngIf="CustomerControl.hasError('required')">
                             Customer is required
@@ -64,15 +67,15 @@
                 <div class="col-8">
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-select formControlName="Ship_to_Customer" placeholder="Ship to Customer"
-                            (openedChange)="myInput2.focus()" (selectionChange)="shipToCustomerChange($event.value)">
-                            <div class="pd-15">
+                            (selectionChange)="shipToCustomerChange($event.value)">
+                            <!-- <div class="pd-15">
                                 <input class="myInput" #myInput2 matInput focused="'true'" type="text"
                                     (keyup)="search(myInput2.value,'shipToCustomer')" autocomplete="off"
                                     placeholder="Ship to Customer">
-                            </div>
+                            </div>-->
                             <mat-divider></mat-divider>
                             <mat-option *ngFor="let a of selectedShipToCustomer" [value]="a">
-                                {{a?.shipTo}}
+                                {{a?.shipTo}} - {{a?.shipToName}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -191,7 +194,10 @@
                         <mat-datepicker #picker3></mat-datepicker>
                         <!-- <mat-error *ngIf="customerForm.get('Offer_Valid_To').hasError('required')">
                     Date is required
+                    
                 </mat-error> -->
+                        <span matSuffix>{{customerForm?.value?.totalDays}}
+                        </span>
                     </mat-form-field>
                 </div>
             </div>

@@ -56,6 +56,9 @@ td.mat-footer-cell:first-of-type {
         min-width: 100%;
     }
 }
+tr.mat-row, tr.mat-footer-row{
+    height: 42px !important;
+}
 .custom_table {
     width: 100%;
     height: calc(100% - 0px);
@@ -116,13 +119,13 @@ td.mat-footer-cell:first-of-type {
     border-left: 1px solid;
     border-top: 1px solid;
     border-color: $tableBorder !important;
-    background-color: $tableHeadBg;
+    background-color: #585252  !important;
     min-height: 35px;
     .mat-header-cell {
         padding: 0 10px;
         border-right: 1px solid;
         border-color: $tableBorder !important;
-        color: $black;
+        color: $white;
         font-size: 0.875rem;
     }
 }
@@ -137,8 +140,8 @@ td.mat-footer-cell:first-of-type {
     background-color: $primaryBg;
     .mat-cell {
         padding: 0 10px;
-        word-break: break-all;
-        word-break: break-word;
+        // word-break: break-all;
+        // word-break: break-word;
         text-align: left;
         border-right: 1px solid;
         border-color: $tableBorder !important;

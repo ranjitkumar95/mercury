@@ -31,7 +31,6 @@ export class CustomersComponent implements OnInit {
   productDisplayedColumns: any = ['HR', 'CR', 'GALV', 'EZN', 'ZM', 'OTH']
   invoiceQuantityDisplayedColumns: any = ['Invoiced_Quantity_1', 'Invoiced_Quantity_2', 'Invoiced_Quantity_3']
   shapeDisplayedColumns: any = ['Slit', 'Sheets', 'blanks']
-
   CustomerControl = new FormControl('', Validators.required);
   productDataSource: any
   invoiceQuantityDataSource: any
@@ -43,12 +42,15 @@ export class CustomersComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private apiString: CitGlobalConstantService,
     private apiMethod: ApiService,
-    private router: Router) {
+    private router: Router,) {
     this.systemYear = new Date().getFullYear()
 
   }
 
   ngOnInit(): void {
+    this.apiMethod.ee.subscribe(headeEvent => {
+      console.log(headeEvent);
+    });
 
     console.log("Customer module working")
     this.customerForm = this.fb.group({
@@ -78,7 +80,8 @@ export class CustomersComponent implements OnInit {
       Invoiced_Quantity_3: ['', Validators.required],
       Sales_by_Shape_Slit: ['', Validators.required],
       Sales_by_Shape_Sheets: ['', Validators.required],
-      Sales_by_Shape_blanks: ['', Validators.required]
+      Sales_by_Shape_blanks: ['', Validators.required],
+      totalDays: ['']
     })
   }
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
@@ -100,19 +103,21 @@ export class CustomersComponent implements OnInit {
     }
   }
   periodChange(eventValue: any) {
-    console.log(eventValue, "event value")
-    console.log(this.customerForm.value.Offer_valid_From)
+    const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
     if (this.customerForm.value.Offer_valid_From && eventValue) {
-      let date: any = ''
-      var newDate: any = ''
-      let newDate2: any = ''
-      date = this.customerForm.value.Offer_valid_From
-      console.log(this.customerForm.value.Offer_valid_From, "Period Change")
-      newDate = new Date(date.setMonth(date.getMonth() + Number(eventValue)));
-      newDate2 = new Date(date.setMonth(date.getMonth() - Number(eventValue)));
+      let date = this.customerForm.value.Offer_valid_From
+      let oneDayBefore: any
+      if (Number(eventValue) === 0) {
+        oneDayBefore = date
+      } else {
+        oneDayBefore = new Date(date.getTime() - oneDay)
+      }
+      console.log(oneDayBefore, "TIME")
+      var newDate: any = new Date(oneDayBefore.setMonth(oneDayBefore.getMonth() + Number(eventValue)));
       this.customerForm.patchValue({
         Offer_Valid_To: newDate,
-        Offer_valid_From: newDate2
+        Offer_valid_From: date,
+        totalDays: Math.round(Math.abs((newDate - date) / oneDay))
       })
     }
   }
@@ -195,33 +200,33 @@ export class CustomersComponent implements OnInit {
         Ship_to_Post_Code: result[0]?.shiptoPostCode,
         Credit_Limit: result[0]?.creditLimit,
         Ship_to_Country: result[0]?.shiptoCountry,
-        Total_Orderbook: result[0]?.totalOrderbook,
-        Open_Orderbook: result[0]?.openorderbook,
-        Invoice_quantity: result[0]?.invoicedQuantity,
+        Total_Orderbook: result[0]?.totalOrderbook?.toFixed(2),
+        Open_Orderbook: result[0]?.openorderbook?.toFixed(2),
+        Invoice_quantity: result[0]?.invoicedQuantity?.toFixed(2),
       })
 
       this.productDataSource = new MatTableDataSource<customerProduct>([
         {
-          'HR': result[0]?.productHR,
-          'CR': result[0]?.productCR,
-          'GALV': result[0]?.productGALV,
-          'EZN': result[0]?.productEZN,
-          'ZM': result[0]?.productZM,
-          'OTH': result[0]?.productOTH
+          'HR': result[0]?.productHR?.toFixed(2),
+          'CR': result[0]?.productCR?.toFixed(2),
+          'GALV': result[0]?.productGALV?.toFixed(2),
+          'EZN': result[0]?.productEZN?.toFixed(2),
+          'ZM': result[0]?.productZM?.toFixed(2),
+          'OTH': result[0]?.productOTH?.toFixed(2)
         }
       ])
       this.invoiceQuantityDataSource = new MatTableDataSource<customerInvoiceQuantity>([
         {
-          'Invoiced_Quantity_1': result[0]?.invoicedQtyinCY,
-          'Invoiced_Quantity_2': result[0].invoicedQtyinCY1,
-          'Invoiced_Quantity_3': result[0]?.invoicedQtyinCY2
+          'Invoiced_Quantity_1': result[0]?.invoicedQtyinCY?.toFixed(2),
+          'Invoiced_Quantity_2': result[0].invoicedQtyinCY1?.toFixed(2),
+          'Invoiced_Quantity_3': result[0]?.invoicedQtyinCY2?.toFixed(2)
         }
       ])
       this.shapeDataSource = new MatTableDataSource<customerShape>([
         {
-          'Slit': result[0]?.shapecoil,
-          'Sheets': result[0]?.shapeSheet,
-          'blanks': result[0]?.shapeblank
+          'Slit': result[0]?.shapecoil?.toFixed(2),
+          'Sheets': result[0]?.shapeSheet?.toFixed(2),
+          'blanks': result[0]?.shapeblank?.toFixed(2)
         }
       ])
     }, error => {

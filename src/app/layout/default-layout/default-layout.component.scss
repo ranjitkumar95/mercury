@@ -55,7 +55,7 @@
 }
 .xyz {
     min-width: 360px;
-    padding-top:10px;
+    padding-top: 10px;
     position: fixed;
     background: #fff;
     width: 100%;
@@ -291,7 +291,7 @@
                 border-width: 0 0 1px;
                 border-color: white;
                 background: inherit;
-                color: white;
+                color: black;
             }
             ::placeholder {
                 /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -310,6 +310,12 @@
             }
             .input-icons {
                 width: 100%;
+                background: white;
+                i {
+                    color: black;
+                    padding: 5px;
+                    cursor: pointer;
+                }
                 // margin-bottom: 10px;
             }
 

@@ -1,3 +1,4 @@
+@import '../../../../assets/color.scss';
 .pd-15 {
     padding: 15px;
 }
@@ -18,4 +19,54 @@ table {
     margin-bottom: auto;
     display: block;
     padding-bottom: 1.3em;
+}
+.mat-option {
+    font-size: 12px !important;
+}
+.mat-header-row {
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    min-width: 100%;
+    border-left: 1px solid;
+    border-top: 1px solid;
+    border-color: $tableBorder !important;
+    background-color: lightblue;
+    min-height: 35px;
+    max-height: 35px;
+    .mat-header-cell {
+        padding: 0 10px;
+        border-right: 1px solid;
+        border-color: $tableBorder !important;
+        color: $black !important;
+        font-size: 0.875rem;
+    }
+}
+.mat-row {
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    min-width: 100%;
+    border-left: 1px solid;
+    border-color: $tableBorder !important;
+    align-items: inherit;
+    background-color: $primaryBg;
+    .mat-cell {
+        padding: 0 10px;
+        word-break: break-all;
+        word-break: break-word;
+        text-align: left;
+        border-right: 1px solid;
+        border-color: $tableBorder !important;
+        font-size: 0.875rem;
+    }
+    .mat-column-expandedDetail {
+        overflow: visible;
+    }
+}
+tr.mat-header-row {
+    height: 30px !important;
+}
+.mat-table {
+    background-color: $primaryBg;
 }

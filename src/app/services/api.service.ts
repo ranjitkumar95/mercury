@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -6,6 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 export class ApiService {
     baseURI: string = environment.domain;
+    ee: EventEmitter<number> = new EventEmitter<number>();
     selectedIndex: any = '';
     constructor(
         private https: HttpClient,
@@ -55,6 +56,10 @@ export class ApiService {
                 verticalPosition: 'bottom',
             });
         }
+
+    }
+    clickEvent(value: any) {
+        this.ee.emit(value);
 
     }
 }

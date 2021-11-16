@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AfterViewInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -9,6 +9,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { offerSummeryList } from '../../../../assets/dummy-data/offer-summery';
 import { offerSummery } from '../offer-interface';
 import { SelectionModel } from '@angular/cdk/collections';
+import { FormBuilder } from '@angular/forms';
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -63,7 +64,7 @@ export class OfferSummeryComponent implements OnInit {
     'Item',
     'Plant',
     'Material_Number',
-   
+
     'Applicable_PGL_Base_Price',
     'Total_mill_Extra',
     'Total_Processing_Extra',
@@ -79,9 +80,19 @@ export class OfferSummeryComponent implements OnInit {
   //  @ViewChild(MatPaginator) paginator:any= MatPaginator;
   dataSource = new MatTableDataSource<offerSummery>(this.data);
   selection = new SelectionModel<offerSummery>(true, []);
-
+  constructor(
+    private fb: FormBuilder,
+    private apiString: CitGlobalConstantService,
+    private apiMethod: ApiService,
+    private router: Router
+  ) {
+  }
   ngOnInit() {
     // this.dataSource.paginator = this.paginator;
+    this.apiMethod.ee.subscribe(headeEvent => {
+      console.log(headeEvent);
+    });
+
   }
 
 
@@ -103,6 +114,9 @@ export class OfferSummeryComponent implements OnInit {
 
   logSelection() {
     this.selection.selected.forEach(s => console.log(s));
+  }
+  saveChage(event: any) {
+    console.log(event)
   }
 }
 

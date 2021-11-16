@@ -9,13 +9,13 @@
     <div class="alignright">
       <div>
         <ul class="menu">
-          <li><i class="fa fa-save cursor"></i></li>
-          <li><i class="fa fa-print cursor"></i></li>
-          <li><i class="fa fa-download cursor"></i></li>
+          <li (click)="onClick('save')"><i class="fa fa-save cursor"></i></li>
+          <li (click)="onClick('print')"><i class="fa fa-print cursor"></i></li>
+          <li (click)="onClick('download')"><i class="fa fa-download cursor"></i></li>
           <li>
             <div class="input-icons">
-              <i class="fa fa-search icon"></i>
-              <input placeholder="Search" class="input-field" type="text" />
+              <i (click)="onClick('search')" class="fa fa-search icon"></i>
+              <input placeholder="Search" class="input-field" type="text" [(ngModel)]="InputValue" />
             </div>
           </li>
           <li>
@@ -76,14 +76,14 @@
         <li [ngClass]="urlStringList[2]==='material-characteristics'? 'curve bg-def':'curve'"><a
             [routerLink]="['/offer/material-characteristics']" [routerLinkActive]="['actives']">Material
             Characteristics</a></li>
-        <li [ngClass]="urlStringList[2]==='Mill-extras'? 'curve bg-def':'curve'"><a
+        <!-- <li [ngClass]="urlStringList[2]==='Mill-extras'? 'curve bg-def':'curve'"><a
             [routerLink]="['/offer/Mill-extras']" [routerLinkActive]="['actives']">Mill Extras</a></li>
         <li [ngClass]="urlStringList[2]==='processing-extras'? 'curve bg-def':'curve'"><a
             [routerLink]="['/offer/processing-extras']">Processing
             Extras</a></li>
         <li [ngClass]="urlStringList[2]==='transport-extras'? 'curve bg-def':'curve'"><a
             [routerLink]="['/offer/transport-extras']" [routerLinkActive]="['actives']">Transport
-            Extras</a></li>
+            Extras</a></li> -->
       </ul>
     </div>
     <div class="xyz-content">
