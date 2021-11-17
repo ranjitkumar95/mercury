@@ -22,7 +22,7 @@ const routes: Routes = [
         component: OfferSummeryComponent
       },
       {
-        path: 'material-characteristics',
+        path: 'material',
         component: MaterialCharacteristicsComponent
       },
       {

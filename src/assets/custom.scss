@@ -1,4 +1,3 @@
-
 @import "./color.scss";
 // ------------- \\
 // common styles \\
@@ -56,7 +55,8 @@ td.mat-footer-cell:first-of-type {
         min-width: 100%;
     }
 }
-tr.mat-row, tr.mat-footer-row{
+tr.mat-row,
+tr.mat-footer-row {
     height: 42px !important;
 }
 .custom_table {
@@ -119,13 +119,13 @@ tr.mat-row, tr.mat-footer-row{
     border-left: 1px solid;
     border-top: 1px solid;
     border-color: $tableBorder !important;
-    background-color: #585252  !important;
+    background-color: $tableHeadBg !important;
     min-height: 35px;
     .mat-header-cell {
         padding: 0 10px;
         border-right: 1px solid;
         border-color: $tableBorder !important;
-        color: $white;
+        color: $black;
         font-size: 0.875rem;
     }
 }
@@ -140,8 +140,8 @@ tr.mat-row, tr.mat-footer-row{
     background-color: $primaryBg;
     .mat-cell {
         padding: 0 10px;
-        // word-break: break-all;
-        // word-break: break-word;
+        word-break: break-all;
+        word-break: break-word;
         text-align: left;
         border-right: 1px solid;
         border-color: $tableBorder !important;

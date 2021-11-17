@@ -1,4 +1,4 @@
-@import '../../../../assets/color.scss';
+@import "../../../../assets/color.scss";
 .pd-15 {
     padding: 15px;
 }
@@ -8,21 +8,14 @@ table {
     margin-bottom: 10px;
     th {
         text-align: center;
+        font-family: "regular";
     }
 
     td {
         text-align: center;
     }
 }
-.label-position {
-    margin-top: auto;
-    margin-bottom: auto;
-    display: block;
-    padding-bottom: 1.3em;
-}
-.mat-option {
-    font-size: 12px !important;
-}
+
 .mat-header-row {
     width: -webkit-fit-content;
     width: -moz-fit-content;
@@ -69,4 +62,8 @@ tr.mat-header-row {
 }
 .mat-table {
     background-color: $primaryBg;
+}
+.btn-text-right {
+    text-align: right;
+    padding: 0px;
 }

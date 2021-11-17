@@ -35,6 +35,7 @@ export class ApiService {
             params: param
         })
     }
+  
     delete_request_Param(url: any, param: any) {
         return this.https.delete(url, {
             params: param

@@ -1,1 +1,113 @@
-<p>material-characteristics works!</p>
+<ng-container *ngIf="loadingRouteConfig">
+    <div class="loading-overlay is-active">
+        <span class="signal"></span>
+    </div>
+</ng-container>
+<div>
+    <div class="table-inner-container overflow-auto cpp_item_table_scroll">
+        <table mat-table matSort [dataSource]="dataSource" multiTemplateDataRows>
+
+            <!-- Checkbox Column -->
+            <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()">
+                    </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Item">
+                <th mat-header-cell *matHeaderCellDef> Item </th>
+                <td mat-cell *matCellDef="let element; let i = dataIndex;"> {{i+1}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="material">
+                <th mat-header-cell *matHeaderCellDef> material </th>
+                <td mat-cell *matCellDef="let element"> {{element.material | number:'4.0-0'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="plant">
+                <th mat-header-cell *matHeaderCellDef> plant</th>
+                <td mat-cell *matCellDef="let element"> {{element.plant}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="bOM">
+                <th mat-header-cell *matHeaderCellDef> bOM </th>
+                <td mat-cell *matCellDef="let element"> {{element.boMrawmaterial| number:'4.0'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="bOMWidth">
+                <th mat-header-cell *matHeaderCellDef> bOMWidth </th>
+                <td mat-cell *matCellDef="let element"> {{element.bOMWidth | number:'4.0-0'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="grade">
+                <th mat-header-cell *matHeaderCellDef> grade </th>
+                <td mat-cell *matCellDef="let element"> {{element.grade}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="materialFormat">
+                <th mat-header-cell *matHeaderCellDef> material Format </th>
+                <td mat-cell *matCellDef="let element"> {{element.materialFormat}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="thickness">
+                <th mat-header-cell *matHeaderCellDef> Thickness Max(mm)</th>
+                <td mat-cell *matCellDef="let element"> {{element.thicknessmaxmm}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="width">
+                <th mat-header-cell *matHeaderCellDef> width </th>
+                <td mat-cell *matCellDef="let element"> {{element.width}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Length">
+                <th mat-header-cell *matHeaderCellDef> Length </th>
+                <td mat-cell *matCellDef="let element"> {{element.Length}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="axis">
+                <th mat-header-cell *matHeaderCellDef> axis </th>
+                <td mat-cell *matCellDef="let element"> {{element.axis}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="bundleWeightMin">
+                <th mat-header-cell *matHeaderCellDef> Bundle Weight Max</th>
+                <td mat-cell *matCellDef="let element"> {{element.bundlegrossweightminKg}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="bundleWeightMax">
+                <th mat-header-cell *matHeaderCellDef> Bundle Weight Min </th>
+                <td mat-cell *matCellDef="let element"> {{element.bundlegrossweightmaxKg}} </td>
+            </ng-container>
+            <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+            <ng-container matColumnDef="expandedDetail">
+                <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+                    <div class="example-element-detail"
+                        [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+
+                        <p>saudjasdk</p>
+                    </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row"
+                [class.example-expanded-row]="expandedElement === element"
+                (click)="expandedElement = expandedElement === element ? null : element">
+            </tr>
+            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+        </table>
+    </div>
+    <div class="row pd-t">
+        <div class="col-12 btn-text-right f-r">
+            <button mat-flat-button color="primary" (click)="submit()">Next</button>
+        </div>
+    </div>
+</div>

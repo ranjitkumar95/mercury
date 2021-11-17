@@ -242,6 +242,7 @@
 #main-header {
     width: 100%;
     height: 55px;
+    border-color: $primaryOrange;
     .alignleft {
         float: left;
         width: 10%;
@@ -263,6 +264,10 @@
         color: $white;
         font-size: 14px;
         font-weight: 500;
+        span {
+            font-family: "bold";
+            font-size: 22px;
+        }
     }
     .alignright {
         float: right;

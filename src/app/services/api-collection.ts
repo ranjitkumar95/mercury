@@ -9,4 +9,6 @@ export class CitGlobalConstantService {
     CustomerList: string = this.baseUrl + "OfferToolApi/Customer/list";
     customerDetails: String = this.baseUrl + "OfferToolApi/Customer/details";
     shipTo: String = this.baseUrl + "OfferToolApi/Customer/shipto";
+    materialList: string = this.baseUrl + "OfferToolApi/list"
+    characteristics:string=this.baseUrl+"OfferToolApi/characteristics"
 }

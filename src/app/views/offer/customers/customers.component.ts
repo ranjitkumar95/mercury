@@ -235,7 +235,20 @@ export class CustomersComponent implements OnInit {
   }
   submit() {
     console.log(this.customerForm.value)
-
+    this.apiMethod.clickEvent({
+      type: 'next',
+      value: JSON.stringify({
+        "fromDate": this.customerForm.value.Offer_valid_From,
+        "toDate": this.customerForm.value.Offer_Valid_To,
+        "salesOrg": this.customerForm.value.Sales_Organisation.salesOrganization,
+        "customer": this.customerForm.value.Customer,
+        "shipTo": this.customerForm.value.Ship_to_Customer.shipTo,
+        "material": '',
+        "plant": '',
+        'soldto': this.customerForm.value.soldto,
+      })
+    })
+    this.router.navigate(['/offer/material'])
   }
 }
 

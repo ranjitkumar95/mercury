@@ -21,11 +21,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
-      console.log(event)
-
-      console.log(event.urlAfterRedirects.split('/'))
       this.urlStringList = event.urlAfterRedirects.split('/')
-
     });
   }
 

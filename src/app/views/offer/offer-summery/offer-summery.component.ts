@@ -1,7 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { AfterViewInit, ViewChild } from '@angular/core';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { CitGlobalConstantService } from 'src/app/services/api-collection';
@@ -10,61 +7,44 @@ import { offerSummeryList } from '../../../../assets/dummy-data/offer-summery';
 import { offerSummery } from '../offer-interface';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FormBuilder } from '@angular/forms';
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-  { position: 11, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 12, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 13, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 14, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 15, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 16, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-  { position: 17, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 18, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 19, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 20, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 21, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 22, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-  { position: 23, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 24, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 25, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 26, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 27, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 28, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-];
-
-/**
- * @title Table with selection
- */
-
+import { animate, state, style, transition, trigger } from '@angular/animations';
 @Component({
   selector: 'app-offer-summery',
   templateUrl: './offer-summery.component.html',
-  styleUrls: ['./offer-summery.component.scss']
+  styleUrls: ['./offer-summery.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+
+  ],
 })
 export class OfferSummeryComponent implements OnInit {
   data: any = offerSummeryList
+  loadingRouteConfig: boolean = false
+  columnsToDisplay = [
+    'select',
+    'Item',
+    'Plant',
+    'Material_Number',
+    'Applicable_PGL_Base_Price',
+    'Total_mill_Extra',
+    'Total_Processing_Extra',
+    'Total_Transport_Extra',
+    'Total_Effective_Extra',
+    'Proposed_Price',
+    'Volume_Offered_In_Tonnes',
+    'PCR_Price',
+    'Gap_With_Applicable_PGL_Base_Price'
+  ];
+  expandedElement: any = null;
   displayedColumns: string[] = [
     'select',
     'Item',
     'Plant',
     'Material_Number',
-
     'Applicable_PGL_Base_Price',
     'Total_mill_Extra',
     'Total_Processing_Extra',
@@ -78,8 +58,11 @@ export class OfferSummeryComponent implements OnInit {
 
 
   //  @ViewChild(MatPaginator) paginator:any= MatPaginator;
-  dataSource = new MatTableDataSource<offerSummery>(this.data);
+  dataSource = new MatTableDataSource<offerSummery>();
   selection = new SelectionModel<offerSummery>(true, []);
+  materialList: any = [];
+  characteristics: any;
+  offerSummery: any;
   constructor(
     private fb: FormBuilder,
     private apiString: CitGlobalConstantService,
@@ -88,15 +71,36 @@ export class OfferSummeryComponent implements OnInit {
   ) {
   }
   ngOnInit() {
-    // this.dataSource.paginator = this.paginator;
-    this.apiMethod.ee.subscribe(headeEvent => {
-      console.log(headeEvent);
+    // this.dataSource.paginator = this.paginator;\
+    this.apiMethod.ee.subscribe((headeEvent: any) => {
+      this.offerSummery = JSON.parse(headeEvent.value)
+      console.log(this.offerSummery, 'TEST')
+      localStorage.setItem('matCharacteristics', headeEvent.value)
     });
+    setTimeout(() => {
+      if (localStorage.getItem('matCharacteristics')) {
+        let localData: any = localStorage.getItem('matCharacteristics')
+        this.offerSummery = JSON.parse(localData)
+        this.getCharacteristics(this.offerSummery)
+      } else {
+        this.getCharacteristics(this.offerSummery)
 
+      }
+    })
   }
 
 
-
+  getMaterialsList(soldTo: any) {
+    this.loadingRouteConfig = true
+    this.apiMethod.post_request(this.apiString.materialList + "?soldto=" + soldTo, '').subscribe(result => {
+      console.log(result)
+      this.loadingRouteConfig = false
+      this.materialList = result
+    }, error => {
+      this.loadingRouteConfig = false
+      this.apiMethod.popupMessage('error', "Error while fatching material list")
+    })
+  }
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -118,9 +122,17 @@ export class OfferSummeryComponent implements OnInit {
   saveChage(event: any) {
     console.log(event)
   }
+  getCharacteristics(changeValue: any) {
+    this.loadingRouteConfig = true
+    this.apiMethod.post_request(this.apiString.characteristics + '?Material=' + changeValue.material + '&Plant=' + changeValue.plant, '').subscribe((result: any) => {
+      console.log(result)
+      this.loadingRouteConfig = false
+      this.characteristics = result
+      this.dataSource = new MatTableDataSource<offerSummery>(result);
+      this.selection = new SelectionModel<offerSummery>(true, []);
+    }, error => {
+      this.loadingRouteConfig = false
+      this.apiMethod.popupMessage('error', "Error While fatching the characteristics")
+    })
+  }
 }
-
-
-/**  Copyright 2018 Google Inc. All Rights Reserved.
-    Use of this source code is governed by an MIT-style license that
-    can be found in the LICENSE file at http://angular.io/license */

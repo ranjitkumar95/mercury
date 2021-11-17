@@ -26,7 +26,8 @@ import { CustomersComponent } from './customers/customers.component';
     CommonModule,
     OfferRoutingModule,
     CommonUseModule,
-    MaterialsModule
+    MaterialsModule,
+    
   ]
 })
 export class OfferModule { }

@@ -241,7 +241,7 @@
             </div>
         </div>
         <div class="col-6">
-            <mat-label>Sales by Product(Tonnes)</mat-label>
+            <mat-label class="f-r">Sales by Product(Tonnes)</mat-label>
             <table mat-table [dataSource]="productDataSource">
 
                 <ng-container matColumnDef="HR">
@@ -295,7 +295,7 @@
         </div>
 
         <div class="col-6">
-            <mat-label>Invoiced Quantity(Tonnes)</mat-label>
+            <mat-label class="f-r">Invoiced Quantity(Tonnes)</mat-label>
             <table mat-table [dataSource]="invoiceQuantityDataSource">
 
                 <ng-container matColumnDef="Invoiced_Quantity_1">
@@ -327,7 +327,7 @@
         </div>
 
         <div class="col-6">
-            <mat-label>Sales by Shape(Tonnes)</mat-label>
+            <mat-label class="f-r">Sales by Shape(Tonnes)</mat-label>
             <table mat-table [dataSource]="shapeDataSource">
 
                 <ng-container matColumnDef="Slit">
@@ -359,9 +359,9 @@
 
         </div>
     </div>
-    <!-- <div class="row pd-t">
-        <div class="col-12 text-center">
-            <button mat-flat-button color="primary" (click)="submit()">Add Customer</button>
+    <div class="row pd-t">
+        <div class="col-12 btn-text-right f-r">
+            <button mat-flat-button color="primary" (click)="submit()">Next</button>
         </div>
-    </div> -->
+    </div>
 </form>

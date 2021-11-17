@@ -175,7 +175,17 @@ a {
 .mat-form-field-appearance-outline .mat-form-field-infix {
     padding: 0.5em 0.5em 1em 0.5em !important;
 }
-
+.label-position {
+    margin-top: auto;
+    margin-bottom: auto;
+    display: block;
+    padding-bottom: 1.3em;
+    font-family: "regular";
+}
+tr.mat-row,
+tr.mat-footer-row {
+    cursor: pointer;
+}
 .loading-overlay {
     display: none;
     background: rgba(255, 255, 255, 0.7);
@@ -252,6 +262,15 @@ a {
         stroke: $primaryOrange !important;
     }
 }
-.mat-form-field .mat-input-element:read-only{
+.mat-form-field .mat-input-element:read-only {
     background-color: transparent !important;
+}
+.f-r {
+    font-family: "regular";
+}
+.f-b {
+    font-family: "bold";
+}
+.mat-option-text,.mat-select-min-line {
+    font-family: 'regular';
 }

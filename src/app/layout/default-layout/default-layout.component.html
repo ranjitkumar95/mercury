@@ -4,7 +4,7 @@
       <img src="../assets/images/Primary_logo_white.gif">
     </div>
     <div class="aligncenter">
-      <p>Welcome To Mercury</p>
+      <span>Welcome To Mercury</span>
     </div>
     <div class="alignright">
       <div>
@@ -68,14 +68,16 @@
   <div id="page-content-wrapper" style="margin-top: 55px;">
     <div class="xyz" [ngClass]="urlStringList[1]!='offer'? 'hide':''">
       <ul>
-        <li [ngClass]="urlStringList[2]!='customers'? 'curve-f':'curve-f bg-def'"><a [routerLink]="['/offer/customers']"
-            [routerLinkActive]="['actives']">Customer</a></li>
-        <li [ngClass]="urlStringList[2]==='offer-summary'? 'curve bg-def':'curve'"><a
-            [routerLink]="['/offer/offer-summary']" [routerLinkActive]="['actives']">Offer Summary</a>
+        <li [ngClass]="urlStringList[2]!='customers'? 'curve-f':'curve-f bg-def'">
+          <a [routerLink]="['/offer/customers']">Customer</a>
         </li>
-        <li [ngClass]="urlStringList[2]==='material-characteristics'? 'curve bg-def':'curve'"><a
-            [routerLink]="['/offer/material-characteristics']" [routerLinkActive]="['actives']">Material
-            Characteristics</a></li>
+        <li [ngClass]="urlStringList[2]==='material'? 'curve bg-def':'curve'">
+          <a [routerLink]="['/offer/material']">Material</a>
+        </li>
+        <li [ngClass]="urlStringList[2]==='offer-summary'? 'curve bg-def':'curve'">
+          <a [routerLink]="['/offer/offer-summary']">Offer Summary</a>
+        </li>
+
         <!-- <li [ngClass]="urlStringList[2]==='Mill-extras'? 'curve bg-def':'curve'"><a
             [routerLink]="['/offer/Mill-extras']" [routerLinkActive]="['actives']">Mill Extras</a></li>
         <li [ngClass]="urlStringList[2]==='processing-extras'? 'curve bg-def':'curve'"><a

@@ -1,7 +1,23 @@
-<div (saveClicked)="saveChage($event)">
-  
+<ng-container *ngIf="loadingRouteConfig">
+  <div class="loading-overlay is-active">
+    <span class="signal"></span>
+  </div>
+</ng-container>
+<div>
+  <!-- <div class="row">
+    <div class="col-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Material</mat-label>
+        <mat-select placeholder="Material" (selectionChange)="getCharacteristics($event?.value)">
+          <mat-option *ngFor="let material of materialList" [value]="material">
+            {{material.material | number : '1.0-0'}} - {{material.plant}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div> -->
   <div class="table-inner-container overflow-auto cpp_item_table_scroll">
-    <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8">
+    <table mat-table matSort [dataSource]="dataSource" multiTemplateDataRows>
 
       <!-- Checkbox Column -->
       <ng-container matColumnDef="select">
@@ -12,24 +28,24 @@
         </th>
         <td mat-cell *matCellDef="let row">
           <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
-            [checked]="selection.isSelected(row)" >
+            [checked]="selection.isSelected(row)">
           </mat-checkbox>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="Item">
         <th mat-header-cell *matHeaderCellDef> Item </th>
-        <td mat-cell *matCellDef="let element"> {{element.Item}} </td>
+        <td mat-cell *matCellDef="let element; let i = dataIndex;"> {{i+1}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Plant">
         <th mat-header-cell *matHeaderCellDef> Plant </th>
-        <td mat-cell *matCellDef="let element"> {{element.Plant}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.plant}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Material_Number">
         <th mat-header-cell *matHeaderCellDef> Material Number </th>
-        <td mat-cell *matCellDef="let element"> {{element.Material_Number}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.material | number : '1.0-0'}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Applicable_PGL_Base_Price">
@@ -77,8 +93,21 @@
         <td mat-cell *matCellDef="let element"> {{element.Gap_With_Applicable_PGL_Base_Price}} </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+      <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+          <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+
+            <p>saudjasdk</p>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element">
       </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
     </table>
   </div>
