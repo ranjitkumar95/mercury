@@ -13,7 +13,7 @@
                 <div class="col-8">
 
                     <mat-form-field class="example-full-width" appearance="outline">
-                        <input type="text" placeholder="Pick one" aria-label="Number" matInput
+                        <input type="text" placeholder="Customer" aria-label="Number" matInput
                             [formControl]="CustomerControl" [matAutocomplete]="auto" (keyup)="getCustomerList()">
                         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                             <mat-option *ngIf="loadingAutoSuggestion">
@@ -29,9 +29,9 @@
                             </mat-option>
                             <!-- </ng-template> -->
                         </mat-autocomplete>
-                        <mat-error *ngIf="CustomerControl.hasError('required')">
+                        <!-- <mat-error *ngIf="CustomerControl.hasError('required')">
                             Customer is required
-                        </mat-error>
+                        </mat-error> -->
                     </mat-form-field>
                 </div>
             </div>
@@ -67,14 +67,14 @@
                 <div class="col-8">
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-select formControlName="Ship_to_Customer" placeholder="Ship to Customer"
-                            (selectionChange)="shipToCustomerChange($event.value)">
+                            (selectionChange)="shipToCustomerChange($event.value)" multiple>
                             <!-- <div class="pd-15">
                                 <input class="myInput" #myInput2 matInput focused="'true'" type="text"
                                     (keyup)="search(myInput2.value,'shipToCustomer')" autocomplete="off"
                                     placeholder="Ship to Customer">
                             </div>-->
                             <mat-divider></mat-divider>
-                            <mat-option *ngFor="let a of selectedShipToCustomer" [value]="a">
+                            <mat-option *ngFor="let a of selectedShipToCustomer" [value]="a" >
                                 {{a?.shipTo}} - {{a?.shipToName}}
                             </mat-option>
                         </mat-select>
@@ -206,10 +206,10 @@
     <div class="row pd-t-b bg">
         <div class="col-4">
             <div class="row">
-                <div class="col-4 label-position">
+                <div class="col-5 label-position">
                     <mat-label>Total Orderbook(Tonnes)</mat-label>
                 </div>
-                <div class="col-8">
+                <div class="col-7">
                     <mat-form-field class="example-full-width" appearance="outline">
                         <input matInput formControlName="Total_Orderbook" readonly>
                     </mat-form-field>
@@ -218,10 +218,10 @@
         </div>
         <div class="col-4">
             <div class="row">
-                <div class="col-4 label-position">
+                <div class="col-5 label-position">
                     <mat-label>Open Orderbook(Tonnes)</mat-label>
                 </div>
-                <div class="col-8">
+                <div class="col-7">
                     <mat-form-field class="example-full-width" appearance="outline">
                         <input matInput formControlName="Open_Orderbook" readonly>
                     </mat-form-field>
@@ -230,10 +230,10 @@
         </div>
         <div class="col-4">
             <div class="row">
-                <div class="col-4 label-position">
+                <div class="col-5 label-position">
                     <mat-label>Invoice quantity(Tonnes)</mat-label>
                 </div>
-                <div class="col-8">
+                <div class="col-7">
                     <mat-form-field class="example-full-width" appearance="outline">
                         <input matInput formControlName="Invoice_quantity" readonly>
                     </mat-form-field>
@@ -241,7 +241,7 @@
             </div>
         </div>
         <div class="col-6">
-            <mat-label class="f-r">Sales by Product(Tonnes)</mat-label>
+            <mat-label class="f-r">Sales by Product( Tonnes)</mat-label>
             <table mat-table [dataSource]="productDataSource">
 
                 <ng-container matColumnDef="HR">
@@ -295,7 +295,7 @@
         </div>
 
         <div class="col-6">
-            <mat-label class="f-r">Invoiced Quantity(Tonnes)</mat-label>
+            <mat-label class="f-r">Invoiced Quantity (Tonnes)</mat-label>
             <table mat-table [dataSource]="invoiceQuantityDataSource">
 
                 <ng-container matColumnDef="Invoiced_Quantity_1">
@@ -327,7 +327,7 @@
         </div>
 
         <div class="col-6">
-            <mat-label class="f-r">Sales by Shape(Tonnes)</mat-label>
+            <mat-label class="f-r">Sales by Shape (Tonnes)</mat-label>
             <table mat-table [dataSource]="shapeDataSource">
 
                 <ng-container matColumnDef="Slit">

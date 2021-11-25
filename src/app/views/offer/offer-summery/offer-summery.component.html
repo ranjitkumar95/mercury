@@ -4,105 +4,459 @@
   </div>
 </ng-container>
 <div>
-  <!-- <div class="row">
-    <div class="col-6">
-      <mat-form-field appearance="outline">
-        <mat-label>Material</mat-label>
-        <mat-select placeholder="Material" (selectionChange)="getCharacteristics($event?.value)">
-          <mat-option *ngFor="let material of materialList" [value]="material">
-            {{material.material | number : '1.0-0'}} - {{material.plant}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </div> -->
   <div class="table-inner-container overflow-auto cpp_item_table_scroll">
     <table mat-table matSort [dataSource]="dataSource" multiTemplateDataRows>
 
-      <!-- Checkbox Column -->
-      <ng-container matColumnDef="select">
-        <th mat-header-cell *matHeaderCellDef>
-          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
-            [indeterminate]="selection.hasValue() && !isAllSelected()">
-          </mat-checkbox>
-        </th>
-        <td mat-cell *matCellDef="let row">
-          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
-            [checked]="selection.isSelected(row)">
-          </mat-checkbox>
-        </td>
-      </ng-container>
+      <ng-container *ngFor="let column of columnsToDisplay;; let i = index" [matColumnDef]="column">
 
-      <ng-container matColumnDef="Item">
-        <th mat-header-cell *matHeaderCellDef> Item </th>
-        <td mat-cell *matCellDef="let element; let i = dataIndex;"> {{i+1}} </td>
+        <span *ngIf="column==='item'">
+          <th mat-header-cell *matHeaderCellDef>Item</th>
+          <td mat-cell *matCellDef="let element"> {{ i+1 }} </td>
+        </span>
+        <span *ngIf="column==='Base_Price'">
+          <th mat-header-cell *matHeaderCellDef>{{ getName(column) }} </th>
+          <td mat-cell *matCellDef="let element"> 45.65 </td>
+        </span>
+        <span *ngIf="column!='item' && column!='Base_Price'">
+          <th mat-header-cell *matHeaderCellDef> {{ getName(column) }} </th>
+          <td mat-cell *matCellDef="let element"> {{ element[column] }} </td>
+        </span>
       </ng-container>
-
-      <ng-container matColumnDef="Plant">
-        <th mat-header-cell *matHeaderCellDef> Plant </th>
-        <td mat-cell *matCellDef="let element"> {{element.plant}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Material_Number">
-        <th mat-header-cell *matHeaderCellDef> Material Number </th>
-        <td mat-cell *matCellDef="let element"> {{element.material | number : '1.0-0'}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Applicable_PGL_Base_Price">
-        <th mat-header-cell *matHeaderCellDef> Applicable PGL Base Price </th>
-        <td mat-cell *matCellDef="let element"> {{element.Applicable_PGL_Base_Price}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Total_mill_Extra">
-        <th mat-header-cell *matHeaderCellDef> Total mill Extra </th>
-        <td mat-cell *matCellDef="let element"> {{element.Total_Mill_Extra}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Total_Processing_Extra">
-        <th mat-header-cell *matHeaderCellDef> Total Processing Extra </th>
-        <td mat-cell *matCellDef="let element"> {{element.Total_Processing_Extra}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Total_Transport_Extra">
-        <th mat-header-cell *matHeaderCellDef> Total Transport Extra </th>
-        <td mat-cell *matCellDef="let element"> {{element.Total_Transport_Extra}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Total_Effective_Extra">
-        <th mat-header-cell *matHeaderCellDef> Total Effective Extra </th>
-        <td mat-cell *matCellDef="let element"> {{element.Total_Effective_Extra}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Proposed_Price">
-        <th mat-header-cell *matHeaderCellDef> Proposed Price </th>
-        <td mat-cell *matCellDef="let element"> {{element.Proposed_Price}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Volume_Offered_In_Tonnes">
-        <th mat-header-cell *matHeaderCellDef> Volume Offered In Tonnes </th>
-        <td mat-cell *matCellDef="let element"> {{element.Volume_Offered_In_Tonnes}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="PCR_Price">
-        <th mat-header-cell *matHeaderCellDef> PCR Price </th>
-        <td mat-cell *matCellDef="let element"> {{element.PCR_Price}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Gap_With_Applicable_PGL_Base_Price">
-        <th mat-header-cell *matHeaderCellDef> Gap With Applicable PGL Base Price </th>
-        <td mat-cell *matCellDef="let element"> {{element.Gap_With_Applicable_PGL_Base_Price}} </td>
-      </ng-container>
-
       <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
       <ng-container matColumnDef="expandedDetail">
         <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
           <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+            <form [formGroup]="offerSummayForm" class="formPadd">
+              <div class="row">
+                <div class="col-6">
+                  <div class="row mb-3">
+                    <label for="inputBOM" class="col-sm-3 col-form-label">BOM</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="inputBOM" placeholder="BOM" formControlName="BOM"
+                        readonly>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="inputBOM_Width" class="col-sm-3 col-form-label">BOM Width</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="inputBOM_Width" placeholder="BOM Width"
+                        formControlName="BOM_Width" readonly>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="inputGrade" class="col-sm-3 col-form-label">Grade</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="inputGrade" placeholder="Grade"
+                        formControlName="Grade" readonly>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="inputMaterial_Format" class="col-sm-3 col-form-label">Material Format</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="inputMaterial_Format" placeholder="Material Format"
+                        formControlName="Material_Format" readonly>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="inputThickness" class="col-sm-3 col-form-label">Thickness</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="inputThickness" placeholder="Thickness"
+                        formControlName="Thickness" readonly>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="inputWidth" class="col-sm-3 col-form-label">Width</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="inputWidth" placeholder="Width"
+                        formControlName="Width" readonly>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="inputLength" class="col-sm-3 col-form-label">Length</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="inputLength" placeholder="Length"
+                        formControlName="Length" readonly>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="inputAxis" class="col-sm-3 col-form-label">Axis</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="inputAxis" placeholder="Axis" formControlName="Axis"
+                        readonly>
+                    </div>
+                  </div>
+                </div>
 
-            <p>saudjasdk</p>
+                <div class="col-6">
+                  <div class="mb-1 d-flex align-items-center position-relative">
+                    <div class="flex_0_0_170">
+                      Ref.Offer/Order ID:
+                    </div>
+                    <div class="flex_1_1_10 table_mat_input_container  d-flex align-items-center">
+                      
+                    </div>
+                  </div>
+                  <div class="mb-1 d-flex align-items-center position-relative">
+                    <div class="flex_0_0_170">
+                      Previous effective price:
+                    </div>
+                    <div class="flex_1_1_10 table_mat_input_container">
+                      <input class="yellowInput max_width_200" readonly />
+                    </div>
+                  </div>
+                  <div class="mb-4 d-flex align-items-center">
+                    <div class="flex_0_0_170">
+                      Date Previous transaction:
+                    </div>
+                    <div class="flex_1_1_10 table_mat_input_container">
+                      <input class="yellowInput max_width_200" readonly type="text" />
+                    </div>
+                  </div>
+                  <div class="mb-1 square_box_flex_box">
+                    <div class="mb-2 d-flex align-items-center">
+                      <div class="flex_0_0_170">
+
+                      </div>
+                      <div class="flex_1_1_10 font_weight_bold text-center font_13">
+                        Cost
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10 font_weight_bold text-center font_13">
+                        PGL
+                      </div>
+                      <div class="flex_1_1_10 font_13">
+
+                      </div>
+                      <div class="flex_1_1_10 font_weight_bold text-center font_13">
+                        Offered
+                      </div>
+                      <div class="flex_1_1_10 font_weight_bold text-center min_width_65 font_13">
+                        Deviation <br /> (BAM)
+                      </div>
+                    </div>
+                    <div class="mb-2 d-flex align-items-center position-relative">
+                      <div class="flex_0_0_170">
+
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10 text-center">
+                        Mi
+                      </div>
+                      <div class="flex_1_1_10 text-center">
+                        Target
+                      </div>
+                      <div class="flex_1_1_10 text-center">
+                        Amb.
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                    </div>
+                    <div class="mb-1 d-flex align-items-center">
+                      <div class="flex_0_0_170">
+                        Base Price:
+                        <span class="required">
+                          *
+                        </span>
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container position-relative">
+                        <input readonly class="yellowInput"  />
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container position-relative">
+                        <input readonly class="inputOne" value="232">
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container position-relative">
+                        <input readonly class="inputTwo" value="32" />
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container position-relative">
+                        <input readonly class="inputThree" value="22"/>
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container position-relative">
+                        <input type="text" maxlength="10" />
+                      </div>
+
+                      <div class="flex_1_1_10 text-center">
+                        23
+                      </div>
+                    </div>
+                    <!-- <div class="mb-1 d-flex align-items-center">
+                      <div class="flex_0_0_170">
+                        Size Extra:
+                      </div>
+
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container">
+                        <input appDecimalNumber maxlength="10" />
+                      </div>
+                      <div class="flex_1_1_10 text-center">23</div>
+                    </div>
+                    <div class="mb-1 d-flex align-items-center">
+                      <div class="flex_0_0_170">
+                        sdfx
+                      </div>
+
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container">
+                        <input maxlength="10" type="number" />
+                      </div>
+                      <div class="flex_1_1_10 text-center">322
+                      </div>
+                    </div>
+                    <div class="mb-1 d-flex align-items-center">
+                      <div class="flex_0_0_170">
+                        Grade Extra:
+                      </div>
+
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container">
+                        <input type="number" />
+                      </div>
+                      <div class="flex_1_1_10 text-center">23223
+                      </div>
+                    </div>
+                    <div class="mb-1 d-flex align-items-center">
+                      <div class="flex_0_0_170">
+                        Sub-size Extra:
+                      </div>
+
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container">
+                        <input type="number" />
+                      </div>
+                      <div class="flex_1_1_10 text-center">
+                        565
+                      </div>
+                    </div>
+                    <div class="mb-1 d-flex align-items-center">
+                      <div class="flex_0_0_170">
+                        Length Extra:
+                      </div>
+
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10">
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container">
+                        <input type="number" />
+                      </div>
+                      <div class="flex_1_1_10 text-center">
+                        34
+                      </div>
+                    </div>
+                    <div class="mb-1 d-flex align-items-center">
+                      <div class="flex_0_0_170">
+                        Logistic Extra:
+                      </div>
+
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container">
+                        <input type="number" />
+                      </div>
+                      <div class="flex_1_1_10 text-center">
+                        435
+                      </div>
+                    </div>
+                    <div class="mb-1 d-flex align-items-center">
+                      <div class="flex_0_0_170">
+                        Transport Mode Extra:
+                      </div>
+
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container">
+                        <input type="number" />
+                      </div>
+                      <div class="flex_1_1_10 text-center">
+                        344
+                      </div>
+                    </div>
+                    <div class="mb-1 d-flex align-items-center">
+                      <div class="flex_0_0_170">
+                        Certificate Extra:
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container" >
+                        <input readonly class="yellowInput" />
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container">
+                        <input type="number" />
+
+                      </div>
+                      <div class="flex_1_1_10 text-center">
+                        3434
+                      </div>
+
+                    </div> -->
+                    <!-- Extras -->
+
+                    <div class="mb-1 d-flex align-items-center">
+                      <div class="flex_0_0_170">
+                        Certificate Extra:
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container">
+                        <input readonly class="yellowInput" />
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container">
+                        <input type="number" />
+                      </div>
+                      <div class="flex_1_1_10 text-center">342
+                      </div>
+                    </div>
+                    <!-- Extras -->
+
+                    <!-- Surcharge Extras -->
+                    <div class="mb-1 d-flex align-items-center">
+                      <div class="flex_0_0_170">
+                        Energy Surcharge Extra:
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container">
+                        <input readonly class="yellowInput" value="33" />
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container">
+                        <input type="number" />
+                      </div>
+                      <div class="flex_1_1_10 text-center">334
+                      </div>
+                    </div>
+
+                    <!-- Surcharge Extras -->
+
+                    <div class="mb-1 d-flex align-items-center">
+                      <div class="flex_0_0_170 font_weight_bold">
+                        Effective:
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container">
+                        <input readonly class="yellowInput">
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container">
+                        <input readonly class="inputOne" value="302">
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container">
+                        <input readonly class="inputTwo" value="22">
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container">
+                        <input readonly class="inputThree" value="12">
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container">
+                        <input class="yellowInput" readonly >
+                      </div>
+                    
+                      <div class="flex_1_1_10 text-center">
+                        3435
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="row mb-3">
+                    <label for="inputPGL_Base_Price" class="col-sm-3 col-form-label">PGL Base Price</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="inputPGL_Base_Price" placeholder="PGL Base Price"
+                        formControlName="PGL_Base_Price" readonly>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="inputProposed_Price" class="col-sm-3 col-form-label">Proposed Price</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="inputProposed_Price" placeholder="Proposed Price"
+                        formControlName="Proposed_Price">
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="inputVolume" class="col-sm-3 col-form-label">Volume</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="inputVolume" placeholder="Volume"
+                        formControlName="Volume">
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+            </form>
           </div>
         </td>
       </ng-container>
-
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
       <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row"
         [class.example-expanded-row]="expandedElement === element"
@@ -111,3 +465,4 @@
       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
     </table>
   </div>
+</div>

@@ -127,6 +127,7 @@ tr.mat-footer-row {
         border-color: $tableBorder !important;
         color: $black;
         font-size: 0.875rem;
+        text-transform: capitalize;
     }
 }
 .mat-row {
@@ -137,7 +138,7 @@ tr.mat-footer-row {
     border-left: 1px solid;
     border-color: $tableBorder !important;
     align-items: inherit;
-    background-color: $primaryBg;
+    background-color: $white;
     .mat-cell {
         padding: 0 10px;
         word-break: break-all;
@@ -153,6 +154,7 @@ tr.mat-footer-row {
 }
 .mat-table {
     background-color: $primaryBg;
+    border: 1px solid lightgray;
 }
 .example-detail-row {
     min-height: auto;
@@ -554,9 +556,9 @@ tr.mat-footer-row {
 
 .table_mat_input_container {
     .mat-form-field {
-        height: 32px;
+        // height: 32px;
         width: 100%;
-        border: 1px solid #ddd;
+        // border: 1px solid #ddd;
         padding: 7px 10px;
         border-radius: 4px;
         background-color: $white;
@@ -783,9 +785,9 @@ tr.mat-footer-row {
         background-color: $white;
         .ng-select-container {
             min-height: auto;
-            height: 32px;
+            // height: 32px;
             width: 100%;
-            border: 1px solid #ddd;
+            // border: 1px solid #ddd;
             border-radius: 4px;
             align-items: center;
             font-size: 0.875rem;

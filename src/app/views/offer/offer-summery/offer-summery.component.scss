@@ -1,3 +1,5 @@
+@import '../../../../assets/color.scss';
+
 table {
   width: 100%;
 }
@@ -34,7 +36,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .example-element-detail {
   overflow: hidden;
-  display: flex;
+  // display: flex;
 }
 
 .example-element-diagram {
@@ -65,6 +67,159 @@ tr.example-element-row:not(.example-expanded-row):active {
 .example-detail-row td {
   padding: 0px !important;
 }
-.example-element-row[_ngcontent-lqg-c296] td[_ngcontent-lqg-c296]{
-  border-bottom-width:thin !important;
+.example-element-row[_ngcontent-lqg-c296] td[_ngcontent-lqg-c296] {
+  border-bottom-width: thin !important;
+}
+.formPadd {
+  padding: 10px 5px 10px 10px;
+  background: #f5f5f5;
+  border: 1px solid lightgray;
+}
+
+//extention
+
+.box_flex_square {
+    border: 1px solid $inputBorder;
+    padding: 15px 10px 0px 10px;
+    border-radius: 4px;
+    box-shadow: 0px 0px 4px 0px $tableShadow !important;
+    .required {
+        color: rgb(245, 70, 70);
+    }
+    .flex_0_0_130 {
+        flex: 0 0 130px;
+        font-size: 0.875rem;
+    }
+    .box_selection {
+        flex: 1 1 100px;
+        width: 100px;
+        > input {
+            width: 100%;
+            border: 1px solid $inputBorder;
+            outline: none;
+            box-shadow: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 0.875rem;
+        }
+        > textarea {
+            width: 100%;
+            border: 1px solid $inputBorder;
+            outline: none;
+            box-shadow: none;
+            resize: none;
+            height: 100px;
+            border-radius: 4px;
+            vertical-align: top;
+            padding: 5px 10px;
+            font-size: 0.875rem;
+        }
+    }
+    .input_box_selection {
+    > input {
+        width: 100%;
+        border: 1px solid $inputBorder;
+        outline: none;
+        box-shadow: none;
+        border-radius: 4px;
+        padding: 5px 10px;
+    }
+}
+}
+.flex_0_0_90 {
+    flex: 0 0 90px;
+    max-width: 90px;
+}
+.flex_0_0_50per {
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+.flex_1_1_10 {
+    flex: 1 1 10px;
+    max-width: calc(100% - 145px);
+}
+.flex_1_1_10_inf {
+    flex: 1 1 10px;
+    width: 10px;
+}
+.flex_0_0_35per {
+    flex: 0 0 35%;
+    max-width: 35%;
+}
+.flex_0_0_145 {
+    flex: 0 0 145px;
+}
+.flex_0_0_170 {
+    flex: 0 0 170px;
+}
+.table_mat_input_container {
+    > input {
+      width: 100%;
+      border: 1px solid $inputBorder;
+      outline: none;
+      box-shadow: none;
+      border-radius: 4px;
+      padding: 4px 10px;
+      height: 32px;
+    } 
+    > input[type=checkbox] {
+      width: auto;
+      height: auto;
+    }
+    textarea {
+      width: 100%;
+      border: 1px solid $inputBorder;
+      outline: none;
+      box-shadow: none;
+      border-radius: 4px;
+      padding: 4px 10px;
+      height: 100px;
+      resize: none;
+    }
+  }
+.input_tag {
+    background-color: $f5f5f5;
+    height: 32px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid $inputBorder;
+    position: absolute;
+    top: 0px;
+    right: -1px;
+}
+.flex_0_0_48per {
+    flex: 0 0 48%;
+    max-width: 48%;
+}
+.add_head {
+    color: $black;
+    font-size: 15px;
+    font-family: 'semi-bold';
+    margin-bottom: 5px;
+}
+.min_width_65 {
+    min-width: 65px;
+}
+.inputOne {
+    background-color: $inputOne;
+}
+.inputTwo {
+    background-color: $inputTwo;
+}
+.inputThree {
+    background-color: $inputThree;
+}
+.yellowInput {
+    background-color: $yellowInput;
+}
+.flex_0_0_10 {
+    flex: 0 0 10px;
+}
+.font_13 {
+    font-size: 13px !important;
+}
+.required {
+    color: rgb(245, 70, 70);
 }

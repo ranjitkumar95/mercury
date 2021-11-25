@@ -183,10 +183,11 @@ export class CustomersComponent implements OnInit {
 
   }
   shipToCustomerChange(changeValue: any) {
+    console.log(changeValue)
     let body = {
-      "organization": changeValue.salesOrganization,
+      "organization": changeValue[0].salesOrganization,
       "soldTo": this.customerForm.value.soldto,
-      "shipTo": changeValue.shipTo
+      "shipTo": changeValue[0].shipTo
     }
     console.log(body)
     console.log(changeValue)
@@ -248,6 +249,7 @@ export class CustomersComponent implements OnInit {
         'soldto': this.customerForm.value.soldto,
       })
     })
+    // localStorage.setItem('matCharacteristics', JSON.stringify(this.customerForm.value))
     this.router.navigate(['/offer/material'])
   }
 }

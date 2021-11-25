@@ -7,6 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class ApiService {
     baseURI: string = environment.domain;
     ee: EventEmitter<number> = new EventEmitter<number>();
+    newOffer: EventEmitter<any> = new EventEmitter<any>();
     selectedIndex: any = '';
     constructor(
         private https: HttpClient,
@@ -61,6 +62,10 @@ export class ApiService {
     }
     clickEvent(value: any) {
         this.ee.emit(value);
+
+    }
+    newOfferData(value: any) {
+        this.newOffer.emit(value);
 
     }
 }

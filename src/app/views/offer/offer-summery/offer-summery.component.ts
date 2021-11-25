@@ -6,7 +6,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { offerSummeryList } from '../../../../assets/dummy-data/offer-summery';
 import { offerSummery } from '../offer-interface';
 import { SelectionModel } from '@angular/cdk/collections';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 @Component({
   selector: 'app-offer-summery',
@@ -24,25 +24,11 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 export class OfferSummeryComponent implements OnInit {
   data: any = offerSummeryList
   loadingRouteConfig: boolean = false
-  columnsToDisplay = [
-    'select',
-    'Item',
-    'Plant',
-    'Material_Number',
-    'Applicable_PGL_Base_Price',
-    'Total_mill_Extra',
-    'Total_Processing_Extra',
-    'Total_Transport_Extra',
-    'Total_Effective_Extra',
-    'Proposed_Price',
-    'Volume_Offered_In_Tonnes',
-    'PCR_Price',
-    'Gap_With_Applicable_PGL_Base_Price'
-  ];
+  columnsToDisplay: any = [];
   expandedElement: any = null;
   displayedColumns: string[] = [
     'select',
-    'Item',
+    'item',
     'Plant',
     'Material_Number',
     'Applicable_PGL_Base_Price',
@@ -61,8 +47,9 @@ export class OfferSummeryComponent implements OnInit {
   dataSource = new MatTableDataSource<offerSummery>();
   selection = new SelectionModel<offerSummery>(true, []);
   materialList: any = [];
-  characteristics: any;
-  offerSummery: any;
+  offerSummery: any = [];
+  offerSummeryOldRecord: any = []
+  offerSummayForm: any = FormGroup
   constructor(
     private fb: FormBuilder,
     private apiString: CitGlobalConstantService,
@@ -71,36 +58,37 @@ export class OfferSummeryComponent implements OnInit {
   ) {
   }
   ngOnInit() {
-    // this.dataSource.paginator = this.paginator;\
-    this.apiMethod.ee.subscribe((headeEvent: any) => {
-      this.offerSummery = JSON.parse(headeEvent.value)
+
+    this.apiMethod.newOffer.subscribe((headeEvent: any) => {
+      this.offerSummery = (headeEvent.value)
       console.log(this.offerSummery, 'TEST')
-      localStorage.setItem('matCharacteristics', headeEvent.value)
+      localStorage.setItem('offerSummery', JSON.stringify(headeEvent.value))
     });
     setTimeout(() => {
-      if (localStorage.getItem('matCharacteristics')) {
-        let localData: any = localStorage.getItem('matCharacteristics')
+      if (localStorage.getItem('offerSummery')) {
+        let localData: any = localStorage.getItem('offerSummery')
         this.offerSummery = JSON.parse(localData)
-        this.getCharacteristics(this.offerSummery)
+        this.getOfferSummery(this.offerSummery)
       } else {
-        this.getCharacteristics(this.offerSummery)
+        this.getOfferSummery(this.offerSummery)
 
       }
     })
-  }
-
-
-  getMaterialsList(soldTo: any) {
-    this.loadingRouteConfig = true
-    this.apiMethod.post_request(this.apiString.materialList + "?soldto=" + soldTo, '').subscribe(result => {
-      console.log(result)
-      this.loadingRouteConfig = false
-      this.materialList = result
-    }, error => {
-      this.loadingRouteConfig = false
-      this.apiMethod.popupMessage('error', "Error while fatching material list")
+    this.offerSummayForm = this.fb.group({
+      "BOM": ['', Validators.required],
+      "BOM_Width": ['', Validators.required],
+      "Grade": ['', Validators.required],
+      "Material_Format": ['', Validators.required],
+      "Thickness": ['', Validators.required],
+      "Width": ['', Validators.required],
+      "Length": ['', Validators.required],
+      "Axis": ['', Validators.required],
+      "PGL_Base_Price": ['', Validators.required],
+      "Proposed_Price": ['', Validators.required],
+      "Volume": ['', Validators.required],
     })
   }
+
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -122,17 +110,37 @@ export class OfferSummeryComponent implements OnInit {
   saveChage(event: any) {
     console.log(event)
   }
-  getCharacteristics(changeValue: any) {
+  getOfferSummery(changeValue: any) {
+    console.log(this.offerSummery)
     this.loadingRouteConfig = true
-    this.apiMethod.post_request(this.apiString.characteristics + '?Material=' + changeValue.material + '&Plant=' + changeValue.plant, '').subscribe((result: any) => {
-      console.log(result)
-      this.loadingRouteConfig = false
-      this.characteristics = result
-      this.dataSource = new MatTableDataSource<offerSummery>(result);
-      this.selection = new SelectionModel<offerSummery>(true, []);
-    }, error => {
-      this.loadingRouteConfig = false
-      this.apiMethod.popupMessage('error', "Error While fatching the characteristics")
+    let that = this
+    that.columnsToDisplay.push('item')
+    Object.keys(this.offerSummery.pricing[0])
+      .forEach(function eachKey(key) {
+        that.columnsToDisplay.push(key);
+      });
+    this.offerSummayForm.patchValue({
+      "BOM": changeValue?.selectedMaterials[0]?.BOM_raw_material,
+      "BOM_Width": changeValue?.selectedMaterials[0]?.BOM_Width,
+      "Grade": changeValue?.selectedMaterials[0]?.Grade,
+      "Material_Format": changeValue?.selectedMaterials[0]?.Material_Format,
+      "Thickness": changeValue?.selectedMaterials[0]?.Total_thickness_mm,
+      "Width": changeValue?.selectedMaterials[0]?.Width_max,
+      "Length": changeValue?.selectedMaterials[0]?.Length_max_mm?.one,
+      "Axis": changeValue?.selectedMaterials[0]?.Axis,
+      "PGL_Base_Price": changeValue?.selectedMaterials[0]?.Calculated_weight_pce_max,
+
+
     })
+    this.dataSource = new MatTableDataSource<offerSummery>(changeValue.pricing);
+    this.selection = new SelectionModel<offerSummery>(true, []);
+    this.loadingRouteConfig = false
+  }
+  getName(value: any) {
+    return value.replace(/_/g, ' ').trim()
+  }
+  selectedMaterials(event: any, data: any) {
+    console.log(event, data)
+
   }
 }

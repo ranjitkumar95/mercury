@@ -7,51 +7,24 @@ import { offerSummeryList } from '../../../../assets/dummy-data/offer-summery';
 import { materialCharacteristics } from '../offer-interface';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FormBuilder } from '@angular/forms';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-material-characteristics',
   templateUrl: './material-characteristics.component.html',
-  styleUrls: ['./material-characteristics.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-
-  ],
+  styleUrls: ['./material-characteristics.component.scss']
 })
 export class MaterialCharacteristicsComponent implements OnInit {
 
   data: any = offerSummeryList
   loadingRouteConfig: boolean = false
-  columnsToDisplay = [
-    'select',
-    "material",
-    "plant",
-    "bOM",
-    "bOMWidth",
-    "grade",
-    "materialFormat",
-    "thickness",
-    "width",
-    "Length",
-    "axis",
-    "bundleWeightMin",
-    "bundleWeightMax",
-
-  ];
+  columnsToDisplay: any = [];
   expandedElement: any;
-
-
-
-  //  @ViewChild(MatPaginator) paginator:any= MatPaginator;
   dataSource = new MatTableDataSource<materialCharacteristics>();
   selection = new SelectionModel<materialCharacteristics>(true, []);
   materialList: any = [];
   characteristics: any;
   matCharacteristics: any;
+  pricingList: any = [];
   constructor(
     private fb: FormBuilder,
     private apiString: CitGlobalConstantService,
@@ -60,7 +33,6 @@ export class MaterialCharacteristicsComponent implements OnInit {
   ) {
   }
   ngOnInit() {
-    // this.dataSource.paginator = this.paginator;\
     this.apiMethod.ee.subscribe((headeEvent: any) => {
       this.matCharacteristics = JSON.parse(headeEvent.value)
       console.log(this.matCharacteristics, 'TEST')
@@ -81,6 +53,7 @@ export class MaterialCharacteristicsComponent implements OnInit {
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
+    console.log("CLICKED ON CHECKBOX 1")
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
@@ -100,22 +73,64 @@ export class MaterialCharacteristicsComponent implements OnInit {
     console.log(event)
   }
   getCharacteristics(changeValue: any) {
+    console.log(changeValue, this.matCharacteristics)
     this.loadingRouteConfig = true
+
     let body = {
-      "material": "000000000008004809",
-      "plant": "DES1"
+      "soldto": changeValue.shipTo,
+      "org": changeValue.salesOrg
     }
-    // this.apiMethod.post_request(this.apiString.characteristics + '?Material=' + changeValue.material + '&Plant=' + changeValue.plant, '').subscribe((result: any) => {
-    this.apiMethod.post_request(this.apiString.characteristics, body).subscribe((result: any) => {
+    console.log(body, "request body ")
+    this.apiMethod.post_request(this.apiString.materialList, body).subscribe((result: any) => {
       console.log(result)
       this.loadingRouteConfig = false
       this.characteristics = result
+      let that = this
+      that.columnsToDisplay.push('select')
+      that.columnsToDisplay.push('item')
+      Object.keys(this.characteristics[0])
+        .forEach(function eachKey(key) {
+          that.columnsToDisplay.push(key);
+        });
       this.dataSource = new MatTableDataSource<materialCharacteristics>(result);
       this.selection = new SelectionModel<materialCharacteristics>(true, []);
     }, error => {
       this.loadingRouteConfig = false
       this.apiMethod.popupMessage('error', "Error While fatching the characteristics")
     })
+  }
+  selectedMaterials(event: any, data: any) {
+    console.log(event, data)
+    if (event.checked === true) {
+      if (this.pricingList.length >= 0) {
+        console.log(event.checked === true)
+        let body = {
+          "fromDate": "20210101",
+          "toDate": "20210101",
+          "salesOrg": "DE07",
+          "customer": "0002004085",
+          "shipTo": "0002004085",
+          "material": "000000000008005700",
+          "plant": "DEN1",
+          "view": 's',
+          "period": "Y1",
+
+        }
+        this.apiMethod.post_request(this.apiString.pricing, body).subscribe((result: any) => {
+          this.pricingList.push(result[0])
+          console.log("CLICKED ON CHECKBOX 1", this.pricingList)
+
+        })
+      } else {
+        this.pricingList = []
+      }
+    } else {
+      this.pricingList.forEach((element: any) => {
+        if (element[0].material === data.material && element[0].plant === data.plant) {
+          this.pricingList.splice(element, 1);
+        }
+      });
+    }
   }
   submit() {
     console.log(this.selection.selected, this.matCharacteristics)
@@ -129,11 +144,18 @@ export class MaterialCharacteristicsComponent implements OnInit {
       this.matCharacteristics['material'] = Material
       this.matCharacteristics['plant'] = plant
       console.log(this.matCharacteristics)
-      this.apiMethod.clickEvent({
+      this.apiMethod.newOfferData({
         type: 'next',
-        value: JSON.stringify(this.matCharacteristics)
+        value: { pricing: this.pricingList, selectedMaterials: this.selection.selected }
+      })
+      console.log({
+        type: 'next',
+        value: { pricing: this.pricingList, selectedMaterials: this.selection.selected }
       })
       this.router.navigate(['/offer/offer-summary'])
     }
+  }
+  getName(value: any) {
+    return value.replace(/_/g, ' ').trim()
   }
 }
