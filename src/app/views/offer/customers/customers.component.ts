@@ -63,6 +63,8 @@ export class CustomersComponent implements OnInit {
       Ship_to_Post_Code: ['', Validators.required],
       Credit_Limit: ['', Validators.required],
       Ship_to_Country: ['', Validators.required],
+      Price_valid_From: ['', Validators.required],
+      Price_valid_To: ['', Validators.required],
       Offer_valid_From: ['', Validators.required],
       Period: ['', Validators.required],
       Offer_Valid_To: ['', Validators.required],
@@ -103,6 +105,7 @@ export class CustomersComponent implements OnInit {
     }
   }
   periodChange(eventValue: any) {
+    console.log(eventValue)
     const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
     if (this.customerForm.value.Offer_valid_From && eventValue) {
       let date = this.customerForm.value.Offer_valid_From
@@ -249,8 +252,20 @@ export class CustomersComponent implements OnInit {
         'soldto': this.customerForm.value.soldto,
       })
     })
-    // localStorage.setItem('matCharacteristics', JSON.stringify(this.customerForm.value))
+    localStorage.setItem('matCharacteristics', JSON.stringify(this.customerForm.value))
     this.router.navigate(['/offer/material'])
+  }
+  roundUp(value: any) {
+    if (typeof value === 'object') {
+      return ''
+    } else {
+      if (Number(value)) {
+        return Math.round(value)
+      } else {
+        return value
+      }
+    }
+
   }
 }
 

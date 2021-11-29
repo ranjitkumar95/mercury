@@ -3,364 +3,400 @@
         <span class="signal"></span>
     </div>
 </ng-container>
-<form [formGroup]="customerForm" autocomplete="off" class="pd-15">
-    <div class="row">
-        <div class="col-6">
-            <div class="row">
-                <div class="col-4 label-position">
-                    <mat-label>Customer</mat-label>
-                </div>
-                <div class="col-8">
+<form [formGroup]="customerForm" autocomplete="off">
+    <div class="p-b-45">
 
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <input type="text" placeholder="Customer" aria-label="Number" matInput
-                            [formControl]="CustomerControl" [matAutocomplete]="auto" (keyup)="getCustomerList()">
-                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                            <mat-option *ngIf="loadingAutoSuggestion">
-                                <div class=" is-active">
-                                    <span class="signal"></span>
-                                </div>
-                            </mat-option>
-                            <!-- <ng-template *ngIf="!loadingAutoSuggestion"> -->
-                            <mat-option *ngFor="let customer of customerList "
-                                (onSelectionChange)="customerSelected(customer)"
-                                value="{{customer?.soldto}} - {{customer.soldtoname}}">
-                                {{customer?.soldto}} - {{customer.soldtoname}}
-                            </mat-option>
-                            <!-- </ng-template> -->
-                        </mat-autocomplete>
-                        <!-- <mat-error *ngIf="CustomerControl.hasError('required')">
+        <div class="row">
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-4 label-position">
+                        <mat-label>Customer</mat-label>
+                    </div>
+                    <div class="col-8">
+
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <input type="text" placeholder="Customer" aria-label="Number" matInput
+                                [formControl]="CustomerControl" [matAutocomplete]="auto" (keyup)="getCustomerList()">
+                            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                <mat-option *ngIf="loadingAutoSuggestion">
+                                    <div class=" is-active">
+                                        <span class="signal"></span>
+                                    </div>
+                                </mat-option>
+                                <!-- <ng-template *ngIf="!loadingAutoSuggestion"> -->
+                                <mat-option *ngFor="let customer of customerList "
+                                    (onSelectionChange)="customerSelected(customer)"
+                                    value="{{customer?.soldto}} - {{customer.soldtoname}}">
+                                    {{customer?.soldto}} - {{customer.soldtoname}}
+                                </mat-option>
+                                <!-- </ng-template> -->
+                            </mat-autocomplete>
+                            <!-- <mat-error *ngIf="CustomerControl.hasError('required')">
                             Customer is required
                         </mat-error> -->
-                    </mat-form-field>
+                        </mat-form-field>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-6">
-            <div class="row">
-                <div class="col-4 label-position">
-                    <mat-label>Sales Organisation</mat-label>
-                </div>
-                <div class="col-8">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-select formControlName="Sales_Organisation" placeholder="Sales Organisation"
-                            (openedChange)="myInput.focus()" (selectionChange)="orgChange($event.value)">
-                            <div class="pd-15">
-                                <input class="myInput" #myInput matInput focused="'true'" type="text"
-                                    (keyup)="search(myInput.value,'SalesOrganisation')" autocomplete="off"
-                                    placeholder="Sales Organisation">
-                            </div>
-                            <mat-divider></mat-divider>
-                            <mat-option *ngFor="let a of selectedSalesOrganisation" [value]="a">
-                                {{a.salesOrganization}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-4 label-position">
+                        <mat-label>Sales Organisation</mat-label>
+                    </div>
+                    <div class="col-8">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-select formControlName="Sales_Organisation" placeholder="Sales Organisation"
+                                (openedChange)="myInput.focus()" (selectionChange)="orgChange($event.value)">
+                                <div class="pd-15">
+                                    <input class="myInput" #myInput matInput focused="'true'" type="text"
+                                        (keyup)="search(myInput.value,'SalesOrganisation')" autocomplete="off"
+                                        placeholder="Sales Organisation">
+                                </div>
+                                <mat-divider></mat-divider>
+                                <mat-option *ngFor="let a of selectedSalesOrganisation" [value]="a">
+                                    {{a.salesOrganization}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-6">
-            <div class="row">
-                <div class="col-4 label-position">
-                    <mat-label>Ship to Customer</mat-label>
-                </div>
-                <div class="col-8">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-select formControlName="Ship_to_Customer" placeholder="Ship to Customer"
-                            (selectionChange)="shipToCustomerChange($event.value)" multiple>
-                            <!-- <div class="pd-15">
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-4 label-position">
+                        <mat-label>Ship to Customer</mat-label>
+                    </div>
+                    <div class="col-8">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-select formControlName="Ship_to_Customer" placeholder="Ship to Customer"
+                                (selectionChange)="shipToCustomerChange($event.value)" multiple>
+                                <!-- <div class="pd-15">
                                 <input class="myInput" #myInput2 matInput focused="'true'" type="text"
                                     (keyup)="search(myInput2.value,'shipToCustomer')" autocomplete="off"
                                     placeholder="Ship to Customer">
                             </div>-->
-                            <mat-divider></mat-divider>
-                            <mat-option *ngFor="let a of selectedShipToCustomer" [value]="a" >
-                                {{a?.shipTo}} - {{a?.shipToName}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                                <mat-divider></mat-divider>
+                                <mat-option *ngFor="let a of selectedShipToCustomer" [value]="a">
+                                    {{a?.shipTo}} - {{a?.shipToName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-6">
-            <div class="row">
-                <div class="col-4 label-position">
-                    <mat-label>Customer Periodicity</mat-label>
-                </div>
-                <div class="col-8">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <input matInput formControlName="Customer_Periodicity" readonly>
-                    </mat-form-field>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-4 label-position">
+                        <mat-label>Customer Periodicity</mat-label>
+                    </div>
+                    <div class="col-8">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <input matInput formControlName="Customer_Periodicity" readonly>
+                        </mat-form-field>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-6">
-            <div class="row">
-                <div class="col-4 label-position">
-                    <mat-label>Customer Segment</mat-label>
-                </div>
-                <div class="col-8">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <input matInput formControlName="Customer_Segment" readonly>
-                    </mat-form-field>
-                </div>
-            </div>
-        </div>
-        <div class="col-6">
-            <div class="row">
-                <div class="col-4 label-position">
-                    <mat-label>Ship to Post Code</mat-label>
-                </div>
-                <div class="col-8">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <input matInput formControlName="Ship_to_Post_Code" readonly>
-                    </mat-form-field>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-4 label-position">
+                        <mat-label>Customer Segment</mat-label>
+                    </div>
+                    <div class="col-8">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <input matInput formControlName="Customer_Segment" readonly>
+                        </mat-form-field>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-6">
-            <div class="row">
-                <div class="col-4 label-position">
-                    <mat-label>Credit Limit</mat-label>
-                </div>
-                <div class="col-8">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <input matInput formControlName="Credit_Limit" readonly>
-                    </mat-form-field>
-                </div>
-            </div>
-        </div>
-        <div class="col-6">
-            <div class="row">
-                <div class="col-4 label-position">
-                    <mat-label>Ship to Country</mat-label>
-                </div>
-                <div class="col-8">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <input matInput formControlName="Ship_to_Country" readonly>
-                    </mat-form-field>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-4 label-position">
+                        <mat-label>Ship to Post Code</mat-label>
+                    </div>
+                    <div class="col-8">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <input matInput formControlName="Ship_to_Post_Code" readonly>
+                        </mat-form-field>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-4">
-            <div class="row">
-                <div class="col-4 label-position">
-                    <mat-label>Offer valid From</mat-label>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-4 label-position">
+                        <mat-label>Credit Limit</mat-label>
+                    </div>
+                    <div class="col-8">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <input matInput formControlName="Credit_Limit" readonly>
+                        </mat-form-field>
+                    </div>
                 </div>
-                <div class="col-8">
-                    <mat-form-field class="example-full-width" appearance="outline">
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-4 label-position">
+                        <mat-label>Ship to Country</mat-label>
+                    </div>
+                    <div class="col-8">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <input matInput formControlName="Ship_to_Country" readonly>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-4 label-position">
                         <mat-label>Offer valid From</mat-label>
-                        <input matInput [matDatepicker]="picker" formControlName="Offer_valid_From"
-                            (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)"
-                            autocomplete="off" required [min]="minDate">
-                        <mat-datepicker-toggle matSuffix [for]="picker">
-                        </mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                        <mat-error *ngIf="customerForm.get('Offer_valid_From').hasError('required')">
-                            Date is required
-                        </mat-error>
-                    </mat-form-field>
+                    </div>
+                    <div class="col-8">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <input matInput [matDatepicker]="picker1" (dateInput)="addEvent('input', $event)"
+                                (dateChange)="addEvent('change', $event)" autocomplete="off" required [min]="minDate"
+                                formControlName="Offer_valid_From">
+                            <mat-datepicker-toggle matSuffix [for]="picker1">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+
+                        </mat-form-field>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-4">
-            <div class="row">
-                <div class="col-4 label-position">
-                    <mat-label>Period</mat-label>
-                </div>
-                <div class="col-8">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-select formControlName="Period" placeholder="Period"
-                            (selectionChange)="periodChange($event.value)" required>
-                            <mat-option *ngFor="let period of PeriodList" [value]="period.value">
-                                {{period.name}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-4 label-position">
+                        <mat-label>Offer valid To</mat-label>
+                    </div>
+                    <div class="col-8">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <input matInput [matDatepicker]="picker2" (dateInput)="addEvent('input', $event)"
+                                (dateChange)="addEvent('change', $event)" autocomplete="off" required [min]="minDate"
+                                formControlName="Offer_valid_To" [min]="customerForm.value.Offer_valid_From">
+                            <mat-datepicker-toggle matSuffix [for]="picker2">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+
+                        </mat-form-field>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-4">
-            <div class="row">
-                <div class="col-4 label-position">
-                    <mat-label>Offer Valid To</mat-label>
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-4 label-position">
+                        <mat-label>Price valid From</mat-label>
+                    </div>
+                    <div class="col-8">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <input matInput [matDatepicker]="picker3" (dateInput)="addEvent('input', $event)"
+                                (dateChange)="addEvent('change', $event)" autocomplete="off" required [min]="minDate"
+                                formControlName="Price_valid_To">
+                            <mat-datepicker-toggle matSuffix [for]="picker3">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker3></mat-datepicker>
+
+                        </mat-form-field>
+                    </div>
                 </div>
-                <div class="col-8">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <input matInput [matDatepicker]="picker3" formControlName="Offer_Valid_To"
-                            dateFormat='dd/mm/yyyy' required readonly>
-                        <!-- <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle> -->
-                        <mat-datepicker #picker3></mat-datepicker>
-                        <!-- <mat-error *ngIf="customerForm.get('Offer_Valid_To').hasError('required')">
+            </div>
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-4 label-position">
+                        <mat-label>Period</mat-label>
+                    </div>
+                    <div class="col-8">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-select formControlName="Period" placeholder="Period"
+                                (selectionChange)="periodChange($event.value)" required>
+                                <mat-option *ngFor="let period of PeriodList" [value]="period.value">
+                                    {{period.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-4 label-position">
+                        <mat-label>Price Valid To</mat-label>
+                    </div>
+                    <div class="col-8">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <input matInput [matDatepicker]="picker4" formControlName="Price_Valid_To"
+                                dateFormat='dd/mm/yyyy' required readonly>
+                            <!-- <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle> -->
+                            <mat-datepicker #picker4></mat-datepicker>
+                            <!-- <mat-error *ngIf="customerForm.get('Offer_Valid_To').hasError('required')">
                     Date is required
                     
                 </mat-error> -->
-                        <span matSuffix>{{customerForm?.value?.totalDays}}
-                        </span>
-                    </mat-form-field>
+                            <span matSuffix>{{customerForm?.value?.totalDays}}
+                            </span>
+                        </mat-form-field>
+                    </div>
                 </div>
+            </div>
+        </div>
+        <div class="row pd-t-b bg">
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-5 label-position">
+                        <mat-label>Total Orderbook(Tonnes)</mat-label>
+                    </div>
+                    <div class="col-7">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <input matInput formControlName="Total_Orderbook" readonly>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-5 label-position">
+                        <mat-label>Open Orderbook(Tonnes)</mat-label>
+                    </div>
+                    <div class="col-7">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <input matInput formControlName="Open_Orderbook" readonly>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-5 label-position">
+                        <mat-label>Invoice quantity(Tonnes)</mat-label>
+                    </div>
+                    <div class="col-7">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <input matInput formControlName="Invoice_quantity" readonly>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <mat-label class="f-r">Sales by Product( Tonnes)</mat-label>
+                <table mat-table [dataSource]="productDataSource">
+
+                    <ng-container matColumnDef="HR">
+                        <th mat-header-cell *matHeaderCellDef> HR
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{roundUp(row.HR)}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="CR">
+                        <th mat-header-cell *matHeaderCellDef> CR
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{roundUp(row.CR)}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="GALV">
+                        <th mat-header-cell *matHeaderCellDef> GALV
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{roundUp(row.GALV)}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="EZN">
+                        <th mat-header-cell *matHeaderCellDef> EZN
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{roundUp(row.EZN)}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ZM">
+                        <th mat-header-cell *matHeaderCellDef> ZM
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{roundUp(row.ZM)}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="OTH">
+                        <th mat-header-cell *matHeaderCellDef> OTH
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{roundUp(row.OTH)}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="productDisplayedColumns">
+                    </tr>
+                    <tr mat-row *matRowDef="let row; columns: productDisplayedColumns;">
+                    </tr>
+
+                </table>
+            </div>
+
+            <div class="col-6">
+                <mat-label class="f-r">Invoiced Quantity (Tonnes)</mat-label>
+                <table mat-table [dataSource]="invoiceQuantityDataSource">
+
+                    <ng-container matColumnDef="Invoiced_Quantity_1">
+                        <th mat-header-cell *matHeaderCellDef>
+                            {{systemYear}} </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{roundUp(row.Invoiced_Quantity_1)}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Invoiced_Quantity_2">
+                        <th mat-header-cell *matHeaderCellDef>
+                            {{systemYear-1}} </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{roundUp(row.Invoiced_Quantity_2)}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Invoiced_Quantity_3">
+                        <th mat-header-cell *matHeaderCellDef>
+                            {{systemYear-2}} </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{roundUp(row.Invoiced_Quantity_3)}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="invoiceQuantityDisplayedColumns">
+                    </tr>
+                    <tr mat-row *matRowDef="let row; columns: invoiceQuantityDisplayedColumns;">
+                    </tr>
+
+                </table>
+            </div>
+
+            <div class="col-6">
+                <mat-label class="f-r">Sales by Shape (Tonnes)</mat-label>
+                <table mat-table [dataSource]="shapeDataSource">
+
+                    <ng-container matColumnDef="Slit">
+                        <th mat-header-cell *matHeaderCellDef>Slit</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{roundUp(row.Slit)}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Sheets">
+                        <th mat-header-cell *matHeaderCellDef> Sheets </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{roundUp(row.Sheets)}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="blanks">
+                        <th mat-header-cell *matHeaderCellDef>Blanks</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{roundUp(row.blanks)}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="shapeDisplayedColumns">
+                    </tr>
+                    <tr mat-row *matRowDef="let row; columns: shapeDisplayedColumns;">
+                    </tr>
+
+                </table>
+            </div>
+
+            <div class="col-6">
+
             </div>
         </div>
     </div>
-    <div class="row pd-t-b bg">
-        <div class="col-4">
-            <div class="row">
-                <div class="col-5 label-position">
-                    <mat-label>Total Orderbook(Tonnes)</mat-label>
-                </div>
-                <div class="col-7">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <input matInput formControlName="Total_Orderbook" readonly>
-                    </mat-form-field>
-                </div>
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="row">
-                <div class="col-5 label-position">
-                    <mat-label>Open Orderbook(Tonnes)</mat-label>
-                </div>
-                <div class="col-7">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <input matInput formControlName="Open_Orderbook" readonly>
-                    </mat-form-field>
-                </div>
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="row">
-                <div class="col-5 label-position">
-                    <mat-label>Invoice quantity(Tonnes)</mat-label>
-                </div>
-                <div class="col-7">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <input matInput formControlName="Invoice_quantity" readonly>
-                    </mat-form-field>
-                </div>
-            </div>
-        </div>
-        <div class="col-6">
-            <mat-label class="f-r">Sales by Product( Tonnes)</mat-label>
-            <table mat-table [dataSource]="productDataSource">
-
-                <ng-container matColumnDef="HR">
-                    <th mat-header-cell *matHeaderCellDef> HR
-                    </th>
-                    <td mat-cell *matCellDef="let row">
-                        {{row.HR}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="CR">
-                    <th mat-header-cell *matHeaderCellDef> CR
-                    </th>
-                    <td mat-cell *matCellDef="let row">
-                        {{row.CR}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="GALV">
-                    <th mat-header-cell *matHeaderCellDef> GALV
-                    </th>
-                    <td mat-cell *matCellDef="let row">
-                        {{row.GALV}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="EZN">
-                    <th mat-header-cell *matHeaderCellDef> EZN
-                    </th>
-                    <td mat-cell *matCellDef="let row">
-                        {{row.EZN}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="ZM">
-                    <th mat-header-cell *matHeaderCellDef> ZM
-                    </th>
-                    <td mat-cell *matCellDef="let row">
-                        {{row.ZM}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="OTH">
-                    <th mat-header-cell *matHeaderCellDef> OTH
-                    </th>
-                    <td mat-cell *matCellDef="let row">
-                        {{row.OTH}} </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="productDisplayedColumns">
-                </tr>
-                <tr mat-row *matRowDef="let row; columns: productDisplayedColumns;">
-                </tr>
-
-            </table>
-        </div>
-
-        <div class="col-6">
-            <mat-label class="f-r">Invoiced Quantity (Tonnes)</mat-label>
-            <table mat-table [dataSource]="invoiceQuantityDataSource">
-
-                <ng-container matColumnDef="Invoiced_Quantity_1">
-                    <th mat-header-cell *matHeaderCellDef>
-                        {{systemYear}} </th>
-                    <td mat-cell *matCellDef="let row">
-                        {{row.Invoiced_Quantity_1}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="Invoiced_Quantity_2">
-                    <th mat-header-cell *matHeaderCellDef>
-                        {{systemYear-1}} </th>
-                    <td mat-cell *matCellDef="let row">
-                        {{row.Invoiced_Quantity_2}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="Invoiced_Quantity_3">
-                    <th mat-header-cell *matHeaderCellDef>
-                        {{systemYear-2}} </th>
-                    <td mat-cell *matCellDef="let row">
-                        {{row.Invoiced_Quantity_3}} </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="invoiceQuantityDisplayedColumns">
-                </tr>
-                <tr mat-row *matRowDef="let row; columns: invoiceQuantityDisplayedColumns;">
-                </tr>
-
-            </table>
-        </div>
-
-        <div class="col-6">
-            <mat-label class="f-r">Sales by Shape (Tonnes)</mat-label>
-            <table mat-table [dataSource]="shapeDataSource">
-
-                <ng-container matColumnDef="Slit">
-                    <th mat-header-cell *matHeaderCellDef>Slit</th>
-                    <td mat-cell *matCellDef="let row">
-                        {{row.Slit}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="Sheets">
-                    <th mat-header-cell *matHeaderCellDef> Sheets </th>
-                    <td mat-cell *matCellDef="let row">
-                        {{row.Sheets}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="blanks">
-                    <th mat-header-cell *matHeaderCellDef>Blanks</th>
-                    <td mat-cell *matCellDef="let row">
-                        {{row.blanks}} </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="shapeDisplayedColumns">
-                </tr>
-                <tr mat-row *matRowDef="let row; columns: shapeDisplayedColumns;">
-                </tr>
-
-            </table>
-        </div>
-
-        <div class="col-6">
-
-        </div>
-    </div>
-    <div class="row pd-t">
-        <div class="col-12 btn-text-right f-r">
+    <div class="row  btn-p-buttom">
+        <div class="col-12 btn-text-right f-r pd-t-b-5">
             <button mat-flat-button color="primary" (click)="submit()">Next</button>
         </div>
     </div>

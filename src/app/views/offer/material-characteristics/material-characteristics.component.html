@@ -3,7 +3,7 @@
         <span class="signal"></span>
     </div>
 </ng-container>
-<div>
+<div class="p-b-45">
     <div class="table-inner-container overflow-auto cpp_item_table_scroll">
         <table mat-table matSort [dataSource]="dataSource">
 
@@ -19,12 +19,19 @@
                     </td>
                 </span>
                 <span *ngIf="column==='item'">
-                    <th mat-header-cell *matHeaderCellDef>Item</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Item</th>
                     <td mat-cell *matCellDef="let element;let i=index"> {{ i+1 }} </td>
                 </span>
                 <span *ngIf="((column!='item') && (column!='select'))">
-                    <th mat-header-cell *matHeaderCellDef> {{ getName(column) }} </th>
-                    <td mat-cell *matCellDef="let element"> {{ element[column] }} </td>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ getName(column) }} </th>
+                    <td mat-cell *matCellDef="let element">
+                        <span *ngIf="element[column] !={}">
+                            {{ roundUp(element[column],column) }}
+                        </span>
+                        <span *ngIf="element[column] ==={}">
+
+                        </span>
+                    </td>
                 </span>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
@@ -34,8 +41,8 @@
             </div>
         </table>
     </div>
-    <div class="row pd-t">
-        <div class="col-12 btn-text-right f-r">
+    <div class="row  btn-p-buttom">
+        <div class="col-12 btn-text-right f-r pd-t-b-5">
             <button mat-flat-button color="primary" (click)="submit()">Next</button>
         </div>
     </div>

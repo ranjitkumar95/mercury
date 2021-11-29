@@ -8,7 +8,8 @@ table {
     margin-bottom: 10px;
     th {
         text-align: center;
-        font-family: "regular";
+        font-family: "semi-bold";
+        font-size: 13px;
     }
 
     td {
@@ -32,7 +33,7 @@ table {
         border-right: 1px solid;
         border-color: $tableBorder !important;
         color: $black !important;
-        font-size: 0.875rem;
+        font-size: 13px;
     }
 }
 .mat-row {
@@ -46,12 +47,12 @@ table {
     background-color: $primaryBg;
     .mat-cell {
         padding: 0 10px;
-        word-break: break-all;
         word-break: break-word;
         text-align: left;
         border-right: 1px solid;
         border-color: $tableBorder !important;
-        font-size: 0.875rem;
+        font-size: 13px;
+        text-align:center
     }
     .mat-column-expandedDetail {
         overflow: visible;

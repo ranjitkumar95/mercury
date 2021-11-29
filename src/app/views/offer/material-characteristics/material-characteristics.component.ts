@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { CitGlobalConstantService } from 'src/app/services/api-collection';
@@ -7,6 +7,7 @@ import { offerSummeryList } from '../../../../assets/dummy-data/offer-summery';
 import { materialCharacteristics } from '../offer-interface';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FormBuilder } from '@angular/forms';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-material-characteristics',
@@ -21,6 +22,8 @@ export class MaterialCharacteristicsComponent implements OnInit {
   expandedElement: any;
   dataSource = new MatTableDataSource<materialCharacteristics>();
   selection = new SelectionModel<materialCharacteristics>(true, []);
+  @ViewChild(MatSort) sort: any = MatSort;
+
   materialList: any = [];
   characteristics: any;
   matCharacteristics: any;
@@ -34,6 +37,7 @@ export class MaterialCharacteristicsComponent implements OnInit {
   }
   ngOnInit() {
     this.apiMethod.ee.subscribe((headeEvent: any) => {
+      console.log(headeEvent)
       this.matCharacteristics = JSON.parse(headeEvent.value)
       console.log(this.matCharacteristics, 'TEST')
       localStorage.setItem('matCharacteristics', headeEvent.value)
@@ -77,8 +81,8 @@ export class MaterialCharacteristicsComponent implements OnInit {
     this.loadingRouteConfig = true
 
     let body = {
-      "soldto": changeValue.shipTo,
-      "org": changeValue.salesOrg
+      "soldto": changeValue.soldto,
+      "org": changeValue.Sales_Organisation.salesOrganization
     }
     console.log(body, "request body ")
     this.apiMethod.post_request(this.apiString.materialList, body).subscribe((result: any) => {
@@ -94,6 +98,9 @@ export class MaterialCharacteristicsComponent implements OnInit {
         });
       this.dataSource = new MatTableDataSource<materialCharacteristics>(result);
       this.selection = new SelectionModel<materialCharacteristics>(true, []);
+      setTimeout(() => {
+        this.dataSource.sort = this.sort;
+      }, 1000);
     }, error => {
       this.loadingRouteConfig = false
       this.apiMethod.popupMessage('error', "Error While fatching the characteristics")
@@ -112,12 +119,21 @@ export class MaterialCharacteristicsComponent implements OnInit {
           "shipTo": "0002004085",
           "material": "000000000008005700",
           "plant": "DEN1",
-          "view": 's',
+          "view": 'D',
           "period": "Y1",
 
         }
         this.apiMethod.post_request(this.apiString.pricing, body).subscribe((result: any) => {
-          this.pricingList.push(result[0])
+          this.pricingList.push(
+            {
+              "Plant": "DEN1",
+              "Material": "000000000008005700",
+              "Base_Price": 573,
+              "Processing_Extras": 45.22,
+              "Transport_Extras": 41.46,
+              "Mill_Extras": 143
+            }
+          )
           console.log("CLICKED ON CHECKBOX 1", this.pricingList)
 
         })
@@ -157,5 +173,17 @@ export class MaterialCharacteristicsComponent implements OnInit {
   }
   getName(value: any) {
     return value.replace(/_/g, ' ').trim()
+  }
+  roundUp(value: any, keyName: any) {
+    if(typeof value === 'object'){
+      return ''
+    }else{
+      if (Number(value)) {
+        return Math.round(value)
+      } else {
+        return value
+      }
+    }
+  
   }
 }

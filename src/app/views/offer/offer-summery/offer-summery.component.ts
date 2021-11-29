@@ -42,7 +42,30 @@ export class OfferSummeryComponent implements OnInit {
     'Gap_With_Applicable_PGL_Base_Price'
   ];
 
-
+  extrasColumns1: string[] = ['code', 'description', 'amount']
+  extrasColumns2: string[] = ['code', 'description', 'amount']
+  extrasColumns3: string[] = ['code', 'description', 'amount']
+  processingExtras: any = [
+    {
+      code: 'ZV80',
+      description: 'Extra Slitting',
+      amount: '12'
+    }
+  ]
+  millExtras: any = [
+    {
+      code: 'ZV80',
+      description: 'Extra Slitting',
+      amount: '12'
+    }
+  ]
+  transportExtras: any = [
+    {
+      code: 'ZV80',
+      description: 'Extra Slitting',
+      amount: '12'
+    }
+  ]
   //  @ViewChild(MatPaginator) paginator:any= MatPaginator;
   dataSource = new MatTableDataSource<offerSummery>();
   selection = new SelectionModel<offerSummery>(true, []);
@@ -69,6 +92,7 @@ export class OfferSummeryComponent implements OnInit {
         let localData: any = localStorage.getItem('offerSummery')
         this.offerSummery = JSON.parse(localData)
         this.getOfferSummery(this.offerSummery)
+        console.log(this.offerSummery)
       } else {
         this.getOfferSummery(this.offerSummery)
 
@@ -141,6 +165,12 @@ export class OfferSummeryComponent implements OnInit {
   }
   selectedMaterials(event: any, data: any) {
     console.log(event, data)
-
+  }
+  roundUp(value:any){
+    if(Number(value)){
+    return Math.round(value)
+    }else{
+      return value
+    }
   }
 }

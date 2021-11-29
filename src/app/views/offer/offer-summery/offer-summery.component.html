@@ -13,13 +13,15 @@
           <th mat-header-cell *matHeaderCellDef>Item</th>
           <td mat-cell *matCellDef="let element"> {{ i+1 }} </td>
         </span>
-        <span *ngIf="column==='Base_Price'">
+        <!-- <span *ngIf="column==='Base_Price'">
           <th mat-header-cell *matHeaderCellDef>{{ getName(column) }} </th>
-          <td mat-cell *matCellDef="let element"> 45.65 </td>
-        </span>
-        <span *ngIf="column!='item' && column!='Base_Price'">
+          <td mat-cell *matCellDef="let element"> 573 </td>
+        </span> -->
+        <span *ngIf="column!='item'">
           <th mat-header-cell *matHeaderCellDef> {{ getName(column) }} </th>
-          <td mat-cell *matCellDef="let element"> {{ element[column] }} </td>
+          <td mat-cell *matCellDef="let element"> 
+            <span *ngIf="element[column]==='{}'"></span>
+            {{ roundUp(element[column]) }} </td>
         </span>
       </ng-container>
       <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
@@ -93,7 +95,7 @@
                       Ref.Offer/Order ID:
                     </div>
                     <div class="flex_1_1_10 table_mat_input_container  d-flex align-items-center">
-                      
+
                     </div>
                   </div>
                   <div class="mb-1 d-flex align-items-center position-relative">
@@ -104,7 +106,7 @@
                       <input class="yellowInput max_width_200" readonly />
                     </div>
                   </div>
-                  <div class="mb-4 d-flex align-items-center">
+                  <div class="d-flex align-items-center">
                     <div class="flex_0_0_170">
                       Date Previous transaction:
                     </div>
@@ -118,13 +120,13 @@
 
                       </div>
                       <div class="flex_1_1_10 font_weight_bold text-center font_13">
-                        Cost
+                        PGL
                       </div>
                       <div class="flex_1_1_10">
 
                       </div>
                       <div class="flex_1_1_10 font_weight_bold text-center font_13">
-                        PGL
+                        Deviation
                       </div>
                       <div class="flex_1_1_10 font_13">
 
@@ -133,7 +135,7 @@
                         Offered
                       </div>
                       <div class="flex_1_1_10 font_weight_bold text-center min_width_65 font_13">
-                        Deviation <br /> (BAM)
+                        Actual <br /> Deviation
                       </div>
                     </div>
                     <div class="mb-2 d-flex align-items-center position-relative">
@@ -167,23 +169,23 @@
                         </span>
                       </div>
                       <div class="flex_1_1_10 table_mat_input_container position-relative">
-                        <input readonly class="yellowInput"  />
+                        <input readonly class="yellowInput" value="573" />
                       </div>
                       <div class="flex_1_1_10 table_mat_input_container position-relative">
-                        <input readonly class="inputOne" value="232">
+                        <input readonly class="inputOne" value="540">
                       </div>
                       <div class="flex_1_1_10 table_mat_input_container position-relative">
-                        <input readonly class="inputTwo" value="32" />
+                        <input readonly class="inputTwo" value="570" />
                       </div>
                       <div class="flex_1_1_10 table_mat_input_container position-relative">
-                        <input readonly class="inputThree" value="22"/>
+                        <input readonly class="inputThree" value="600" />
                       </div>
                       <div class="flex_1_1_10 table_mat_input_container position-relative">
-                        <input type="text" maxlength="10" />
+                        <input type="text" maxlength="10" value="{{roundUp(522.58)}}" readonly />
                       </div>
 
                       <div class="flex_1_1_10 text-center">
-                        23
+                        {{roundUp(50.42)}}
                       </div>
                     </div>
                     <!-- <div class="mb-1 d-flex align-items-center">
@@ -357,10 +359,10 @@
 
                     <div class="mb-1 d-flex align-items-center">
                       <div class="flex_0_0_170">
-                        Certificate Extra:
+                        Mill Extras:
                       </div>
                       <div class="flex_1_1_10 table_mat_input_container">
-                        <input readonly class="yellowInput" />
+                        <input readonly class="yellowInput" value="143" />
                       </div>
                       <div class="flex_1_1_10">
 
@@ -372,9 +374,9 @@
 
                       </div>
                       <div class="flex_1_1_10 table_mat_input_container">
-                        <input type="number" />
+                        <input type="number" readonly value="143" />
                       </div>
-                      <div class="flex_1_1_10 text-center">342
+                      <div class="flex_1_1_10 text-center">0
                       </div>
                     </div>
                     <!-- Extras -->
@@ -382,10 +384,10 @@
                     <!-- Surcharge Extras -->
                     <div class="mb-1 d-flex align-items-center">
                       <div class="flex_0_0_170">
-                        Energy Surcharge Extra:
+                        Processing Extras:
                       </div>
                       <div class="flex_1_1_10 table_mat_input_container">
-                        <input readonly class="yellowInput" value="33" />
+                        <input readonly class="yellowInput" value="{{roundUp(45.22)}}" />
                       </div>
                       <div class="flex_1_1_10">
 
@@ -397,36 +399,58 @@
 
                       </div>
                       <div class="flex_1_1_10 table_mat_input_container">
-                        <input type="number" />
+                        <input type="text" readonly value="{{roundUp(42.95)}}" />
                       </div>
-                      <div class="flex_1_1_10 text-center">334
+                      <div class="flex_1_1_10 text-center">{{roundUp(2.27)}}
                       </div>
                     </div>
 
                     <!-- Surcharge Extras -->
+                    <!-- Transport Extras -->
+                    <div class="mb-1 d-flex align-items-center">
+                      <div class="flex_0_0_170">
+                        Transport Extras:
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container">
+                        <input readonly class="yellowInput" value="{{roundUp(41.46)}}" />
+                      </div>
+                      <div class="flex_1_1_10">
 
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10">
+
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container">
+                        <input type="text" readonly value="{{roundUp(41.46)}}" />
+                      </div>
+                      <div class="flex_1_1_10 text-center">0
+                      </div>
+                    </div>
                     <div class="mb-1 d-flex align-items-center">
                       <div class="flex_0_0_170 font_weight_bold">
-                        Effective:
+                        Effective Price:
                       </div>
                       <div class="flex_1_1_10 table_mat_input_container">
-                        <input readonly class="yellowInput">
+                        <input readonly class="yellowInput" value="{{roundUp(802.68)}}">
                       </div>
                       <div class="flex_1_1_10 table_mat_input_container">
-                        <input readonly class="inputOne" value="302">
+                        <input readonly class="inputOne" value="{{roundUp(768.20)}}">
                       </div>
                       <div class="flex_1_1_10 table_mat_input_container">
-                        <input readonly class="inputTwo" value="22">
+                        <input readonly class="inputTwo" value="{{roundUp(799.55)}}">
                       </div>
                       <div class="flex_1_1_10 table_mat_input_container">
-                        <input readonly class="inputThree" value="12">
+                        <input readonly class="inputThree" value="{{roundUp(830.90)}}">
                       </div>
                       <div class="flex_1_1_10 table_mat_input_container">
-                        <input class="yellowInput" readonly >
+                        <input class="yellowInput" type="text" value="750">
                       </div>
-                    
+
                       <div class="flex_1_1_10 text-center">
-                        3435
+                        {{roundUp(52.68)}}
                       </div>
                     </div>
                   </div>
@@ -452,6 +476,98 @@
                     </div>
                   </div> -->
                 </div>
+                <!-- <div class="col-4 table">
+                  <mat-label class="f-r">Mill Extras</mat-label>
+                  <table mat-table [dataSource]="millExtras">
+
+                    <ng-container matColumnDef="code">
+                      <th mat-header-cell *matHeaderCellDef> Code
+                      </th>
+                      <td mat-cell *matCellDef="let row">
+                        {{row.code}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="description">
+                      <th mat-header-cell *matHeaderCellDef> Description
+                      </th>
+                      <td mat-cell *matCellDef="let row">
+                        {{row.description}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="amount">
+                      <th mat-header-cell *matHeaderCellDef> Amount
+                      </th>
+                      <td mat-cell *matCellDef="let row">
+                        {{row.amount}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="extrasColumns1"></tr>
+                    <tr mat-row *matRowDef="let row; columns: extrasColumns1;"></tr>
+
+                  </table>
+                </div>
+                <div class="col-4">
+                  <mat-label class="f-r">Processing Extras</mat-label>
+                  <table mat-table [dataSource]="processingExtras">
+
+
+                    <ng-container matColumnDef="code">
+                      <th mat-header-cell *matHeaderCellDef> Code
+                      </th>
+                      <td mat-cell *matCellDef="let row">
+                        {{row.code}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="description">
+                      <th mat-header-cell *matHeaderCellDef> Description
+                      </th>
+                      <td mat-cell *matCellDef="let row">
+                        {{row.description}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="amount">
+                      <th mat-header-cell *matHeaderCellDef> Amount
+                      </th>
+                      <td mat-cell *matCellDef="let row">
+                        {{row.amount}} </td>
+                    </ng-container>
+
+
+                    <tr mat-header-row *matHeaderRowDef="extrasColumns2"></tr>
+                    <tr mat-row *matRowDef="let row; columns: extrasColumns2;"></tr>
+
+                  </table>
+                </div>
+                <div class="col-4">
+                  <mat-label class="f-r">Transport Extras</mat-label>
+                  <table mat-table [dataSource]="transportExtras">
+
+                    <ng-container matColumnDef="code">
+                      <th mat-header-cell *matHeaderCellDef> Code
+                      </th>
+                      <td mat-cell *matCellDef="let row">
+                        {{row.code}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="description">
+                      <th mat-header-cell *matHeaderCellDef> Description
+                      </th>
+                      <td mat-cell *matCellDef="let row">
+                        {{row.description}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="amount">
+                      <th mat-header-cell *matHeaderCellDef> Amount
+                      </th>
+                      <td mat-cell *matCellDef="let row">
+                        {{row.amount}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="extrasColumns3"></tr>
+                    <tr mat-row *matRowDef="let row; columns: extrasColumns3;"></tr>
+
+                  </table>
+                </div> -->
               </div>
             </form>
           </div>
