@@ -129,9 +129,14 @@ export class MaterialCharacteristicsComponent implements OnInit {
               "Plant": "DEN1",
               "Material": "000000000008005700",
               "Base_Price": 573,
+              "Mill_Extras": 143,
               "Processing_Extras": 45.22,
               "Transport_Extras": 41.46,
-              "Mill_Extras": 143
+              "Effective Price":803,
+              "Offered Price":750,
+              "Volume":4000,
+              "Gap Vs. PGL Base Price":523
+
             }
           )
           console.log("CLICKED ON CHECKBOX 1", this.pricingList)

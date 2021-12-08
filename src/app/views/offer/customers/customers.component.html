@@ -172,7 +172,7 @@
                         <mat-form-field class="example-full-width" appearance="outline">
                             <input matInput [matDatepicker]="picker2" (dateInput)="addEvent('input', $event)"
                                 (dateChange)="addEvent('change', $event)" autocomplete="off" required [min]="minDate"
-                                formControlName="Offer_valid_To" [min]="customerForm.value.Offer_valid_From">
+                                formControlName="Offer_Valid_To" [min]="customerForm.value.Offer_valid_From">
                             <mat-datepicker-toggle matSuffix [for]="picker2">
                             </mat-datepicker-toggle>
                             <mat-datepicker #picker2></mat-datepicker>
@@ -190,7 +190,7 @@
                         <mat-form-field class="example-full-width" appearance="outline">
                             <input matInput [matDatepicker]="picker3" (dateInput)="addEvent('input', $event)"
                                 (dateChange)="addEvent('change', $event)" autocomplete="off" required [min]="minDate"
-                                formControlName="Price_valid_To">
+                                formControlName="Price_valid_From">
                             <mat-datepicker-toggle matSuffix [for]="picker3">
                             </mat-datepicker-toggle>
                             <mat-datepicker #picker3></mat-datepicker>

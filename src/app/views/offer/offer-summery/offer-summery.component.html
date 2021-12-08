@@ -19,9 +19,10 @@
         </span> -->
         <span *ngIf="column!='item'">
           <th mat-header-cell *matHeaderCellDef> {{ getName(column) }} </th>
-          <td mat-cell *matCellDef="let element"> 
+          <td mat-cell *matCellDef="let element">
             <span *ngIf="element[column]==='{}'"></span>
-            {{ roundUp(element[column]) }} </td>
+            {{ roundUp(element[column]) }}
+          </td>
         </span>
       </ng-container>
       <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
@@ -90,30 +91,41 @@
                 </div>
 
                 <div class="col-6">
-                  <div class="mb-1 d-flex align-items-center position-relative">
-                    <div class="flex_0_0_170">
-                      Ref.Offer/Order ID:
-                    </div>
-                    <div class="flex_1_1_10 table_mat_input_container  d-flex align-items-center">
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="mb-1 d-flex align-items-center position-relative">
+                        <div class="flex_0_0_170">
+                          Ref.Offer/Order ID:
+                        </div>
+                        <div class="flex_1_1_10 table_mat_input_container  d-flex align-items-center">
+                          <input class="yellowInput max_width_200" readonly />
 
+                        </div>
+                      </div>
                     </div>
+
+                    <div class="col-6">
+                      <div class="mb-1 d-flex align-items-center position-relative">
+                        <div class="flex_0_0_170">
+                          Previous effective price:
+                        </div>
+                        <div class="flex_1_1_10 table_mat_input_container">
+                          <input class="yellowInput max_width_200" readonly />
+                        </div>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <div class="flex_0_0_170">
+                          Date Previous transaction:
+                        </div>
+                        <div class="flex_1_1_10 table_mat_input_container">
+                          <input class="yellowInput max_width_200" readonly type="text" />
+                        </div>
+                      </div>
+                    </div>
+
                   </div>
-                  <div class="mb-1 d-flex align-items-center position-relative">
-                    <div class="flex_0_0_170">
-                      Previous effective price:
-                    </div>
-                    <div class="flex_1_1_10 table_mat_input_container">
-                      <input class="yellowInput max_width_200" readonly />
-                    </div>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <div class="flex_0_0_170">
-                      Date Previous transaction:
-                    </div>
-                    <div class="flex_1_1_10 table_mat_input_container">
-                      <input class="yellowInput max_width_200" readonly type="text" />
-                    </div>
-                  </div>
+
+
                   <div class="mb-1 square_box_flex_box">
                     <div class="mb-2 d-flex align-items-center">
                       <div class="flex_0_0_170">
@@ -451,6 +463,14 @@
 
                       <div class="flex_1_1_10 text-center">
                         {{roundUp(52.68)}}
+                      </div>
+                    </div>
+                    <div class="mb-1 d-flex align-items-center position-relative">
+                      <div class="flex_0_0_170">
+                        Volume (Tonnes):
+                      </div>
+                      <div class="flex_1_1_10 table_mat_input_container">
+                        <input class="yellowInput max_width_200" type="number" />
                       </div>
                     </div>
                   </div>

@@ -64,7 +64,7 @@ export class CustomersComponent implements OnInit {
       Credit_Limit: ['', Validators.required],
       Ship_to_Country: ['', Validators.required],
       Price_valid_From: ['', Validators.required],
-      Price_valid_To: ['', Validators.required],
+      Price_Valid_To: ['', Validators.required],
       Offer_valid_From: ['', Validators.required],
       Period: ['', Validators.required],
       Offer_Valid_To: ['', Validators.required],
@@ -107,8 +107,9 @@ export class CustomersComponent implements OnInit {
   periodChange(eventValue: any) {
     console.log(eventValue)
     const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-    if (this.customerForm.value.Offer_valid_From && eventValue) {
-      let date = this.customerForm.value.Offer_valid_From
+    console.log(this.customerForm.value.Price_valid_From && eventValue)
+    if (this.customerForm.value.Price_valid_From && eventValue) {
+      let date = this.customerForm.value.Price_valid_From
       let oneDayBefore: any
       if (Number(eventValue) === 0) {
         oneDayBefore = date
@@ -118,8 +119,8 @@ export class CustomersComponent implements OnInit {
       console.log(oneDayBefore, "TIME")
       var newDate: any = new Date(oneDayBefore.setMonth(oneDayBefore.getMonth() + Number(eventValue)));
       this.customerForm.patchValue({
-        Offer_Valid_To: newDate,
-        Offer_valid_From: date,
+        Price_Valid_To: newDate,
+        Price_valid_From: date,
         totalDays: Math.round(Math.abs((newDate - date) / oneDay))
       })
     }
